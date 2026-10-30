@@ -1,0 +1,251 @@
+.page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 48rpx 32rpx calc(120rpx + constant(safe-area-inset-bottom));
+    padding: 48rpx 32rpx calc(120rpx + env(safe-area-inset-bottom));
+    background: #fff7f0;
+}
+
+.profile-head {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 32rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+    margin-bottom: 24rpx;
+}
+
+.avatar {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    background: #fff0e9;
+    color: #ff8a65;
+    font-size: 56rpx;
+    line-height: 120rpx;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.head-main {
+    flex: 1;
+    margin-left: 24rpx;
+    overflow: hidden;
+}
+
+.name {
+    display: block;
+    font-size: 36rpx;
+    font-weight: 700;
+    color: #3a2a22;
+}
+
+.meta {
+    display: block;
+    margin-top: 10rpx;
+    font-size: 26rpx;
+    color: #7a675c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gender-tag {
+    padding: 8rpx 20rpx;
+    border-radius: 999rpx;
+    background: #fbf1e9;
+    color: #7a675c;
+    font-size: 24rpx;
+}
+
+.id-card {
+    box-sizing: border-box;
+    padding: 32rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+    margin-bottom: 24rpx;
+}
+
+.id-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 20rpx;
+}
+
+.id-title {
+    font-size: 32rpx;
+    font-weight: 700;
+    color: #3a2a22;
+}
+
+.id-sub {
+    font-size: 24rpx;
+    color: #806b5e;
+}
+
+.id-row {
+    display: flex;
+    align-items: center;
+    padding: 22rpx 0;
+}
+
+.id-label {
+    width: 150rpx;
+    flex-shrink: 0;
+    color: #806b5e;
+    font-size: 28rpx;
+}
+
+.id-value {
+    flex: 1;
+    color: #3a2a22;
+    font-size: 28rpx;
+}
+
+.id-row-contact {
+    border-bottom: 0;
+}
+
+.contact {
+    color: #ff8a65;
+    font-weight: 600;
+}
+
+.id-tip {
+    margin-top: 8rpx;
+    padding: 18rpx 20rpx;
+    border-radius: 16rpx;
+    background: #fdf3ee;
+    color: #e2574c;
+    font-size: 24rpx;
+    text-align: center;
+}
+
+.section {
+    margin-bottom: 24rpx;
+}
+
+.section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16rpx;
+}
+
+.section-title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #3a2a22;
+}
+
+.section-more {
+    color: #ff8a65;
+    font-size: 26rpx;
+}
+
+.record-item {
+    display: flex;
+    align-items: center;
+    padding: 22rpx 24rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+    margin-bottom: 16rpx;
+}
+
+.tag {
+    padding: 6rpx 16rpx;
+    border-radius: 8rpx;
+    background: #fff0e9;
+    color: #c24a2c;
+    font-size: 24rpx;
+    flex-shrink: 0;
+}
+
+.record-main {
+    flex: 1;
+    margin: 0 16rpx;
+    overflow: hidden;
+}
+
+.record-title {
+    display: block;
+    font-size: 28rpx;
+    color: #3a2a22;
+}
+
+.record-note {
+    display: block;
+    margin-top: 6rpx;
+    color: #7a675c;
+    font-size: 24rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.record-date {
+    color: #806b5e;
+    font-size: 22rpx;
+    flex-shrink: 0;
+}
+
+.ghost-btn {
+    margin-top: 8rpx;
+    background: #fff0e9;
+    color: #ff8a65;
+    font-size: 30rpx;
+}
+
+.primary-btn {
+    margin-top: 16rpx;
+    background: #ff8a65;
+    color: #ffffff;
+    font-size: 30rpx;
+}
+
+.export-btn {
+    margin-top: 20rpx;
+    background: #fdf3ee;
+    color: #e2574c;
+    font-size: 30rpx;
+}
+
+.export-tip {
+    display: block;
+    margin-top: 12rpx;
+    color: #806b5e;
+    font-size: 23rpx;
+    text-align: center;
+}
+
+/* 离屏画布：用 0 尺寸容器包住，避免大尺寸 fixed 元素污染页面布局 */
+.export-canvas-wrap {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.export-canvas {
+    width: 600px;
+    height: 800px;
+}
+
+/* 触达区：区块右上角“全部 ›”补足高度 */
+.section-more {
+    display: inline-flex;
+    align-items: center;
+    min-height: 84rpx;
+    padding-left: 24rpx;
+}
+
+/* 上传的照片填满头像容器（预设图标仍居中留白） */
+.avatar-img-fill {
+    width: 100%;
+    height: 100%;
+}

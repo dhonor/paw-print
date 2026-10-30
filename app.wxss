@@ -1,0 +1,420 @@
+/* ============================================================
+   设计 token：颜色 / 圆角 / 间距 / 字阶
+   页面里只引用变量，不再写死色值，避免各页面漂移
+   ============================================================ */
+page {
+    min-height: 100%;
+    background: #fff7f0;
+    color: #3a2a22;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+
+    /* 品牌色与语义色 */
+    --color-primary: #ff8a65;
+    --color-primary-weak: #fff0e9;
+    /* 主色底的文字色：亮桃底上白字只有 2.4:1，改用深可可 5.8:1 */
+    --color-on-primary: #4a2415;
+    /* 情感点缀色：宠物产品需要一点暖色，避免整屏冷蓝显得像后台工具 */
+    --color-accent: #ffab7d;
+    --color-accent-weak: #fff4ec;
+    --gradient-brand: linear-gradient(135deg, #ff8a65 0%, #f4734b 100%);
+    --shadow-card: 0 6rpx 24rpx rgba(58, 42, 34, 0.06);
+    --color-success: #2fa97c;
+    --color-warning: #e6a23c;
+    --color-danger: #e2574c;
+
+    /* 文字三级（辅助色 #806b5e 对白底 4.8:1，满足小字可读性） */
+    --color-text: #3a2a22;
+    --color-text-2: #7a675c;
+    --color-text-3: #806b5e;
+
+    /* 容器 */
+    --color-border: #f7e6da;
+    --color-surface: #ffffff;
+
+    /* 圆角四档：徽标 / 控件 / 卡片 / 胶囊 */
+    --radius-badge: 8rpx;
+    --radius-control: 16rpx;
+    --radius-card: 24rpx;
+    --radius-pill: 999rpx;
+
+    /* 间距（8 的倍数） */
+    --space-1: 8rpx;
+    --space-2: 16rpx;
+    --space-3: 24rpx;
+    --space-4: 32rpx;
+    --space-6: 48rpx;
+
+    /* 动效：时长与缓动统一，只动 opacity / transform */
+    --motion-fast: 160ms;
+    --motion-base: 220ms;
+    --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* 统一按钮基础样式：固定高度 + 居中，避免不同机型下被 flex 挤压变形 */
+button {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0 32rpx;
+    height: 88rpx;
+    line-height: 88rpx;
+    font-size: 30rpx;
+    border-radius: 16rpx;
+    /* 文案不换行：按钮高度固定，换行会被裁掉 */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* 去掉微信 button 默认的 1px 边框，圆角处的伪元素最容易“变形” */
+button::after {
+    border: none;
+}
+
+/* 列表里的 mini 按钮保持紧凑 */
+button[size="mini"] {
+    display: inline-flex;
+    height: 60rpx;
+    line-height: 60rpx;
+    padding: 0 24rpx;
+    font-size: 24rpx;
+}
+
+/* ============================================================
+   页面骨架：所有页面共用一套 hero / 标题层级
+   ============================================================ */
+.hero {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 28rpx;
+}
+
+.eyebrow {
+    color: var(--color-primary);
+    font-size: 22rpx;
+    font-weight: 600;
+    letter-spacing: 3rpx;
+}
+
+.title {
+    margin-top: 16rpx;
+    font-size: 48rpx;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-text);
+}
+
+.subtitle {
+    margin-top: 12rpx;
+    color: var(--color-text-2);
+    font-size: 28rpx;
+    line-height: 1.5;
+}
+
+/* ============================================================
+   通用容器
+   ============================================================ */
+.surface-card {
+    box-sizing: border-box;
+    padding: 28rpx 26rpx;
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+}
+
+/* 无边框设计：卡片靠「白底 + 极轻暖阴影」与奶油底分层，不使用描边 */
+.state-card,
+.empty-card,
+.surface-card,
+.stats-bar,
+.card,
+.place,
+.booking,
+.reminder,
+.member,
+.trend-card,
+.form-card,
+.menu-card,
+.content-card,
+.profile-card,
+.place-card,
+.add-card,
+.id-card,
+.record-item,
+.nearby-entry {
+    box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
+}
+
+/* 跨页面复用的状态卡片（加载 / 空 / 错误） */
+.state-card,
+.empty-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 320rpx;
+    padding: 36rpx;
+    box-sizing: border-box;
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    text-align: center;
+}
+
+.state-card-error {
+    background: #fdf3ee;
+}
+
+/* 空态图标：统一的浅色圆形底，避免不同 emoji 大小不一显得杂乱 */
+.empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 132rpx;
+    height: 132rpx;
+    border-radius: 50%;
+    background: #fdf2ea;
+    font-size: 64rpx;
+    line-height: 1;
+}
+
+.spinner {
+    width: 44rpx;
+    height: 44rpx;
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+}
+
+.state-icon {
+    color: var(--color-primary);
+    font-size: 56rpx;
+    font-weight: 700;
+}
+
+.state-title {
+    margin-top: 20rpx;
+    font-size: 34rpx;
+    font-weight: 600;
+}
+
+.state-description {
+    margin-top: 12rpx;
+    color: var(--color-text-2);
+    font-size: 26rpx;
+    line-height: 1.6;
+}
+
+.primary-button {
+    margin-top: 28rpx;
+    background: #ff8a65;
+    color: #ffffff;
+    font-size: 28rpx;
+}
+
+/* 状态徽标：待服务 / 已逾期 / 已完成 … */
+.status-chip {
+    flex-shrink: 0;
+    padding: 4rpx 16rpx;
+    border-radius: 8rpx;
+    font-size: 22rpx;
+    background: var(--color-primary-weak);
+    color: var(--color-primary);
+}
+
+.status-chip-warn,
+.status-soon {
+    background: #fdf2e2;
+    color: #a66a16;
+}
+
+.status-chip-danger,
+.status-overdue,
+.status-today {
+    background: #ffeee8;
+    color: var(--color-danger);
+}
+
+.status-chip-success,
+.status-done {
+    background: #e8f5ef;
+    color: var(--color-success);
+}
+
+.status-chip-muted,
+.status-off {
+    background: #fbf1e9;
+    color: var(--color-text-3);
+}
+
+/* 纯文字按钮：补足 88rpx 触达高度，避免只有 30rpx 高的点按区 */
+.tap-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 88rpx;
+    padding: 0 8rpx;
+    color: var(--color-primary);
+    font-size: 26rpx;
+}
+
+/* 底部弹层：拖拽把手（下拉关闭） */
+.sheet-handle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6rpx 0 18rpx;
+}
+
+.sheet-bar {
+    width: 72rpx;
+    height: 8rpx;
+    border-radius: var(--radius-pill);
+    background: #edd9cb;
+}
+
+/* 弹层进场：遮罩淡入、面板上滑（只动 opacity / transform） */
+.editor-mask {
+    animation: mask-fade-in var(--motion-fast) var(--motion-ease);
+}
+
+.editor-sheet {
+    animation: sheet-slide-up var(--motion-base) var(--motion-ease);
+}
+
+@keyframes mask-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes sheet-slide-up {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   图标（PNG）：统一尺寸与容器对齐
+   ============================================================ */
+.icon {
+    width: 40rpx;
+    height: 40rpx;
+    flex-shrink: 0;
+}
+
+.icon-sm {
+    width: 28rpx;
+    height: 28rpx;
+    margin-right: 6rpx;
+}
+
+.icon-lg {
+    width: 72rpx;
+    height: 72rpx;
+}
+
+.empty-icon-img {
+    width: 68rpx;
+    height: 68rpx;
+}
+
+.avatar,
+.pet-avatar,
+.nearby-icon,
+.menu-icon,
+.reminder-emoji {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-img {
+    width: 64%;
+    height: 64%;
+}
+
+.pet-avatar-img {
+    width: 60%;
+    height: 60%;
+}
+
+.nearby-icon-img {
+    width: 40rpx;
+    height: 40rpx;
+}
+
+.menu-icon-img {
+    width: 34rpx;
+    height: 34rpx;
+}
+
+.reminder-emoji-img {
+    width: 32rpx;
+    height: 32rpx;
+}
+
+.splash-paw {
+    width: 150rpx;
+    height: 150rpx;
+}
+
+.brand-paw {
+    width: 104rpx;
+    height: 104rpx;
+}
+
+.location-icon {
+    width: 32rpx;
+    height: 32rpx;
+    margin-right: 10rpx;
+}
+
+.summary-icon {
+    width: 34rpx;
+    height: 34rpx;
+    margin-right: 14rpx;
+}
+
+.state-icon {
+    width: 72rpx;
+    height: 72rpx;
+}
+
+.search-icon {
+    width: 34rpx;
+    height: 34rpx;
+    margin-right: 14rpx;
+}
+
+.detail-close {
+    width: 32rpx;
+    height: 32rpx;
+}
+
+.pet-icon {
+    width: 64rpx;
+    height: 64rpx;
+}
+
+.chip-icon {
+    width: 30rpx;
+    height: 30rpx;
+    margin-right: 8rpx;
+}
+
+.score-star {
+    width: 26rpx;
+    height: 26rpx;
+    margin-right: 6rpx;
+}
+
+.place-tel,
+.record-anomaly,
+.record-title {
+    display: flex;
+    align-items: center;
+}

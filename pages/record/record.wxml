@@ -1,0 +1,138 @@
+<wxs module="util">
+module.exports.contains = function (arr, v) {
+    if (!arr) { return false; }
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] === v) { return true; }
+    }
+    return false;
+};
+</wxs>
+
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">RECORDS</text>
+        <text class="title">成长记录</text>
+    </view>
+
+    <skeleton wx:if="{{viewState === 'loading'}}" count="3" />
+
+    <view class="empty-card" wx:elif="{{viewState === 'empty'}}">
+        <view class="empty-icon"><image class="empty-icon-img" src="/assets/icons/paw.png" /></view>
+        <text class="state-title">还没有宠物</text>
+        <text class="state-description">请先添加一只宠物，再来记录它的成长。</text>
+        <button class="primary-button" bindtap="goPets">去添加宠物</button>
+    </view>
+
+    <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
+        <text class="state-icon">!</text>
+        <text class="state-title">加载失败</text>
+        <button class="primary-button" bindtap="loadPets">重试</button>
+    </view>
+
+    <block wx:else>
+        <view class="pet-picker">
+            <text class="picker-label">宠物</text>
+            <picker class="pet-picker-field" mode="selector" range="{{petOptions}}" value="{{selectedIndex}}" bindchange="onSelectPet">
+                <view class="picker pet-picker-value" hover-class="pet-picker-hover">
+                    <text class="pet-picker-name">{{selectedPetName}}</text>
+                    <image class="picker-caret" src="/assets/icons/chevron-down.png" />
+                </view>
+            </picker>
+            <view class="pet-picker-add" hover-class="pet-picker-add-hover" bindtap="openCreate">+ 记录</view>
+        </view>
+
+        <view class="trend-card" wx:if="{{weightPoints.length > 0}}">
+            <view class="trend-head">
+                <text class="trend-title">体重趋势</text>
+                <text class="trend-badge {{anomalyCount > 0 ? 'trend-badge-warn' : ''}}">近 30 天异常 {{anomalyCount}}</text>
+            </view>
+            <view class="trend-chart">
+                <view class="trend-col" wx:for="{{weightPoints}}" wx:key="key">
+                    <text class="trend-value">{{item.value}}</text>
+                    <view class="trend-bar-wrap">
+                        <view class="trend-bar" style="height:{{item.height}}%"></view>
+                    </view>
+                    <text class="trend-date">{{item.label}}</text>
+                </view>
+            </view>
+            <text class="trend-tip">{{weightTip}}</text>
+        </view>
+        <view class="trend-empty" wx:elif="{{records.length > 0}}">
+            添加一条「体重」记录，这里就会出现体重趋势
+        </view>
+
+        <view class="record-list">
+            <view class="record-card" wx:for="{{records}}" wx:key="id">
+                <view class="record-card-head">
+                    <text class="tag">{{item.type}}</text>
+                    <text class="record-value" wx:if="{{item.value}}">{{item.value}}</text>
+                    <text class="record-date">{{item.date}}</text>
+                </view>
+                <view class="record-anomaly" wx:if="{{item.anomaly}}"><image class="icon icon-sm" src="/assets/icons/warning.png" /><text>异常：{{item.anomaly}}</text></view>
+                <text class="record-note" wx:if="{{item.note}}">{{item.note}}</text>
+                <text class="record-operator" wx:if="{{item.operator}}">记录人 {{item.operator}}</text>
+                <view class="record-card-foot">
+                    <text class="record-edit" data-id="{{item.id}}" catchtap="openEdit">编辑</text>
+                    <text class="record-delete" data-id="{{item.id}}" catchtap="handleDelete">删除</text>
+                </view>
+            </view>
+            <view class="record-empty" wx:if="{{records.length === 0}}">这只宠物还没有记录，点上方「+ 记录」添加。</view>
+        </view>
+    </block>
+
+    <view class="editor-mask" wx:if="{{showEditor}}" bindtap="closeEditor" catchtouchmove="noop"></view>
+    <view class="editor-sheet" wx:if="{{showEditor}}" style="transform: translateY({{sheetOffset}}px);">
+        <view class="sheet-handle"
+            bindtouchstart="onSheetTouchStart"
+            bindtouchmove="onSheetTouchMove"
+            bindtouchend="onSheetTouchEnd">
+            <view class="sheet-bar"></view>
+        </view>
+        <text class="sheet-title">{{editorMode === 'edit' ? '编辑记录' : '新增记录'}}</text>
+        <text class="sheet-error" wx:if="{{error !== ''}}">{{error}}</text>
+
+        <view class="field-group">
+            <text class="field-label">记录人</text>
+            <view class="picker picker-static">{{currentOperator}}</view>
+        </view>
+
+        <view class="field-group">
+            <text class="field-label">类型</text>
+            <picker mode="selector" range="{{typeOptions}}" value="{{typeIndex}}" bindchange="onType">
+                <view class="picker">{{typeOptions[typeIndex]}}</view>
+            </picker>
+        </view>
+
+        <view class="field-group" wx:if="{{typeOptions[typeIndex] === '异常'}}">
+            <text class="field-label">异常症状（可多选）</text>
+            <view class="chip-wrap">
+                <view class="anomaly-chip {{util.contains(selectedAnomalies, item) ? 'anomaly-chip-active' : ''}}"
+                    wx:for="{{anomalyPresets}}" wx:key="*this" data-index="{{index}}" bindtap="toggleAnomaly">
+                    {{item}}
+                </view>
+            </view>
+        </view>
+
+        <view class="field-group">
+            <text class="field-label">日期 <text class="required">*</text></text>
+            <picker mode="date" value="{{date}}" bindchange="onDate">
+                <view class="picker">{{date === '' ? '请选择日期' : date}}</view>
+            </picker>
+        </view>
+
+        <view class="field-group">
+            <text class="field-label">数值 / 简要</text>
+            <input class="field-input" placeholder="如：4.2kg / 已接种" value="{{value}}" bindinput="onValue" maxlength="40" />
+        </view>
+
+        <view class="field-group">
+            <text class="field-label">备注</text>
+            <textarea class="field-textarea" placeholder="补充说明（可选）" value="{{note}}" bindinput="onNote" maxlength="200" />
+        </view>
+
+        <view class="sheet-actions">
+            <button class="sheet-button" bindtap="closeEditor" disabled="{{submitting}}">取消</button>
+            <button class="sheet-button save-button" bindtap="save" loading="{{submitting}}" disabled="{{submitting}}">保存</button>
+        </view>
+    </view>
+</view>

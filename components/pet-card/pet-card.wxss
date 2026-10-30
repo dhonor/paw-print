@@ -1,0 +1,72 @@
+.pet-card {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 24rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+    margin-bottom: 20rpx;
+    box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
+}
+
+.avatar {
+    width: 88rpx;
+    height: 88rpx;
+    border-radius: 50%;
+    background: #fff0e9;
+    color: #ff8a65;
+    font-size: 44rpx;
+    line-height: 88rpx;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.info {
+    flex: 1;
+    margin-left: 20rpx;
+    overflow: hidden;
+}
+
+.name {
+    display: block;
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #3a2a22;
+}
+
+.meta {
+    display: block;
+    margin-top: 8rpx;
+    color: #7a675c;
+    font-size: 24rpx;
+}
+
+.breed {
+    display: block;
+    margin-top: 6rpx;
+    color: #806b5e;
+    font-size: 22rpx;
+}
+
+.arrow {
+    color: #806b5e;
+    font-size: 36rpx;
+    margin-left: 12rpx;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-img {
+    width: 62%;
+    height: 62%;
+}
+
+/* 上传的照片填满头像容器（预设图标仍居中留白） */
+.avatar-img-fill {
+    width: 100%;
+    height: 100%;
+}

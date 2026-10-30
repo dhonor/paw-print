@@ -1,0 +1,174 @@
+.page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 48rpx 32rpx 64rpx;
+}
+
+
+
+
+
+.filters {
+    width: 100%;
+    white-space: nowrap;
+    margin-bottom: 22rpx;
+}
+
+.filter {
+    display: inline-block;
+    padding: 12rpx 26rpx;
+    margin-right: 14rpx;    border-radius: 999rpx;
+    background: #ffffff;
+    color: #7a675c;
+    font-size: 26rpx;
+}
+
+.filter-active {
+    border-color: #ff8a65;
+    background: #fff0e9;
+    color: #ff8a65;
+    font-weight: 600;
+}
+
+
+
+.booking {
+    padding: 26rpx;
+    margin-bottom: 16rpx;    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.booking-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.booking-place {
+    flex: 1;
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #3a2a22;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.status {
+    flex-shrink: 0;
+    margin-left: 16rpx;
+    padding: 4rpx 16rpx;
+    border-radius: 8rpx;
+    font-size: 22rpx;
+}
+
+.status-warn {
+    background: #fdf2e2;
+    color: #a66a16;
+}
+
+.status-done {
+    background: #e8f5ef;
+    color: #2fa97c;
+}
+
+.status-off {
+    background: #fbf1e9;
+    color: #806b5e;
+}
+
+.booking-meta {
+    margin-top: 10rpx;
+}
+
+.booking-time {
+    color: #ff8a65;
+    font-size: 26rpx;
+    font-weight: 600;
+}
+
+.booking-row {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10rpx;
+}
+
+.booking-label {
+    width: 80rpx;
+    flex-shrink: 0;
+    color: #806b5e;
+    font-size: 24rpx;
+}
+
+.booking-value {
+    flex: 1;
+    color: #3a2a22;
+    font-size: 26rpx;
+    line-height: 1.5;
+}
+
+.booking-score {
+    display: flex;
+    align-items: center;
+    margin-top: 14rpx;
+    padding: 12rpx 16rpx;
+    border-radius: 16rpx;
+    background: #fdf7ed;
+}
+
+.score-star {
+    color: #e6a23c;
+    font-size: 26rpx;
+    margin-right: 8rpx;
+}
+
+.score-text {
+    color: #a66a16;
+    font-size: 24rpx;
+}
+
+.score-review {
+    flex: 1;
+    margin-left: 14rpx;
+    color: #7a675c;
+    font-size: 24rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.booking-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16rpx;
+}
+
+.action-link {
+    margin-left: 30rpx;
+    color: #7a675c;
+    font-size: 26rpx;
+}
+
+.action-primary {
+    color: #ff8a65;
+    font-weight: 600;
+}
+
+.tip {
+    margin-top: 10rpx;
+    color: #806b5e;
+    font-size: 22rpx;
+    line-height: 1.7;
+}
+
+/* 触达区：文字操作按钮补足到 88rpx 高，避免只有 35rpx 的点按区 */
+.action-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 88rpx;
+    padding-left: 8rpx;
+}
+
+.booking-actions {
+    margin-top: 4rpx;
+}

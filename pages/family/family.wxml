@@ -1,0 +1,77 @@
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">FAMILY</text>
+        <text class="title">家庭共享</text>
+        <text class="subtitle">多人一起照顾，记录上写清谁做了什么</text>
+    </view>
+
+    <view class="state-card" wx:if="{{viewState === 'loading'}}">
+        <view class="spinner"></view>
+        <text class="state-title">正在加载</text>
+    </view>
+
+    <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
+        <text class="state-icon">!</text>
+        <text class="state-title">加载失败</text>
+        <button class="primary-button" bindtap="loadMembers">重试</button>
+    </view>
+
+    <block wx:else>
+        <view class="family-card" wx:if="{{isRemote && family}}">
+            <text class="family-name">{{family.name}}</text>
+            <text class="family-label">邀请码</text>
+            <view class="invite-row">
+                <text class="invite-code">{{family.inviteCode}}</text>
+                <view class="invite-copy" hover-class="invite-copy-hover" bindtap="copyInvite">复制</view>
+            </view>
+            <text class="family-tip">家人用这个邀请码加入后，看到的是同一份宠物和记录。</text>
+        </view>
+
+        <view class="member" wx:for="{{members}}" wx:key="id">
+            <view class="member-main" data-id="{{item.id}}" bindtap="selectMember">
+                <view class="member-avatar">{{item.avatar}}</view>
+                <view class="member-info">
+                    <view class="member-name-row">
+                        <text class="member-name">{{item.name}}</text>
+                        <text class="member-badge" wx:if="{{isRemote ? item.isSelf : item.isCurrent}}">{{isRemote ? '我' : '当前记录人'}}</text>
+                    </view>
+                    <text class="member-role">{{item.role}}</text>
+                </view>
+            </view>
+            <text class="member-remove" wx:if="{{!isRemote}}" data-id="{{item.id}}" bindtap="removeMember">移除</text>
+        </view>
+
+        <view class="empty-card" wx:if="{{members.length === 0}}">
+            <view class="empty-icon"><image class="empty-icon-img" src="/assets/icons/family.png" /></view>
+            <text class="state-title">还没有家庭成员</text>
+            <text class="state-description">{{isRemote ? '把邀请码发给家人，加入后这里就会出现。' : '添加共同照护的人，之后每条记录都会带上记录人。'}}</text>
+        </view>
+
+        <view class="add-card" wx:if="{{isRemote}}">
+            <text class="add-title">加入家人的家庭</text>
+            <text class="add-error" wx:if="{{error !== ''}}">{{error}}</text>
+            <input class="add-input" placeholder="粘贴家人发来的邀请码" value="{{inviteInput}}" bindinput="onInviteInput" maxlength="40" />
+            <button class="primary-button" bindtap="joinFamily" loading="{{submitting}}" disabled="{{submitting}}">加入</button>
+        </view>
+
+        <view class="add-card" wx:else>
+            <text class="add-title">添加成员</text>
+            <text class="add-error" wx:if="{{error !== ''}}">{{error}}</text>
+
+            <input class="add-input" placeholder="称呼，如：妈妈 / 小王" value="{{memberName}}" bindinput="onNameInput" maxlength="12" />
+
+            <view class="role-row">
+                <view class="role-chip {{roleIndex === index ? 'role-chip-active' : ''}}"
+                    wx:for="{{roles}}" wx:key="*this" data-index="{{index}}" bindtap="onRoleTap">
+                    {{item}}
+                </view>
+            </view>
+
+            <button class="primary-button" bindtap="addMember" loading="{{submitting}}" disabled="{{submitting}}">添加</button>
+        </view>
+
+        <view class="tip">
+            {{isRemote ? '成员是真实微信账号，数据存在服务端，换手机也能看到；记录人自动记为你自己。' : '当前为本地版：成员和记录保存在这台设备上。要让家人各自手机看到同一份数据，需要接云开发（云数据库 + 权限控制），页面逻辑不用重写。'}}
+        </view>
+    </block>
+</view>

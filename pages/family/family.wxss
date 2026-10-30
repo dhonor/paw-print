@@ -1,0 +1,222 @@
+.page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 48rpx 32rpx 64rpx;
+}
+
+
+
+
+
+
+
+.member {
+    display: flex;
+    align-items: center;
+    padding: 22rpx 26rpx;
+    margin-bottom: 16rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.member-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.member-avatar {
+    width: 72rpx;
+    height: 72rpx;
+    line-height: 72rpx;
+    margin-right: 20rpx;
+    border-radius: 50%;
+    background: #fff0e9;
+    color: #ff8a65;
+    font-size: 32rpx;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.member-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.member-name-row {
+    display: flex;
+    align-items: center;
+}
+
+.member-name {
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #3a2a22;
+}
+
+.member-badge {
+    margin-left: 14rpx;
+    padding: 4rpx 14rpx;
+    border-radius: 8rpx;
+    background: #fff0e9;
+    color: #ff8a65;
+    font-size: 22rpx;
+}
+
+.member-role {
+    margin-top: 6rpx;
+    color: #806b5e;
+    font-size: 24rpx;
+}
+
+.member-remove {
+    flex-shrink: 0;
+    margin-left: 16rpx;
+    color: #e2574c;
+    font-size: 26rpx;
+}
+
+.add-card {
+    padding: 28rpx 26rpx;
+    margin-top: 8rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.add-title {
+    display: block;
+    font-size: 30rpx;
+    font-weight: 600;
+    margin-bottom: 18rpx;
+}
+
+.add-error {
+    display: block;
+    margin-bottom: 16rpx;
+    color: #e2574c;
+    font-size: 26rpx;
+}
+
+/* 单行输入：固定高度 + 行高居中，避免原生 input 默认 1.4rem 把文字压住 */
+.add-input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 88rpx;
+    min-height: 88rpx;
+    padding: 0 24rpx;
+    border-radius: 16rpx;
+    background: #fbf1e9;
+    color: #3a2a22;
+    font-size: 28rpx;
+    line-height: 88rpx;
+}
+
+.role-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 18rpx;
+}
+
+.role-chip {
+    padding: 12rpx 24rpx;
+    margin: 0 14rpx 14rpx 0;
+    border-radius: 999rpx;
+    background: #fbf1e9;
+    color: #7a675c;
+    font-size: 24rpx;
+}
+
+.role-chip-active {
+    border-color: #ff8a65;
+    background: #fff0e9;
+    color: #ff8a65;
+    font-weight: 600;
+}
+
+.tip {
+    margin-top: 24rpx;
+    color: #806b5e;
+    font-size: 24rpx;
+    line-height: 1.7;
+}
+
+.primary-button {
+    margin-top: 10rpx;
+}
+
+/* 触达区：移除按钮补足高度 */
+.member-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 88rpx;
+    padding-left: 24rpx;
+}
+
+/* 家庭信息卡（远端模式：家庭名 + 邀请码） */
+.family-card {
+    box-sizing: border-box;
+    padding: 28rpx 26rpx;
+    margin-bottom: 20rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+    box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
+}
+
+.family-name {
+    display: block;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #3a2a22;
+}
+
+.family-label {
+    display: block;
+    margin-top: 18rpx;
+    color: #806b5e;
+    font-size: 23rpx;
+}
+
+.invite-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10rpx;
+    padding: 16rpx 20rpx;
+    border-radius: 16rpx;
+    background: #fbf1e9;
+}
+
+/* 邀请码要能完整看到，允许折行而不是省略 */
+.invite-code {
+    flex: 1;
+    min-width: 0;
+    color: #3a2a22;
+    font-size: 24rpx;
+    line-height: 1.5;
+    letter-spacing: 0.5rpx;
+    word-break: break-all;
+}
+
+.invite-copy {
+    flex-shrink: 0;
+    margin-left: 16rpx;
+    padding: 10rpx 26rpx;
+    border-radius: 999rpx;
+    background: #ff8a65;
+    color: #4a2415;
+    font-size: 24rpx;
+}
+
+.invite-copy-hover {
+    background: #f4734b;
+}
+
+.family-tip {
+    display: block;
+    margin-top: 16rpx;
+    color: #806b5e;
+    font-size: 22rpx;
+    line-height: 1.6;
+}

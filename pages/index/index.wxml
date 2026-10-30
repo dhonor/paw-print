@@ -1,0 +1,110 @@
+<view class="splash {{splashHide ? 'splash-hide' : ''}}" wx:if="{{showSplash}}">
+    <view class="splash-inner">
+        <image class="splash-paw" src="/assets/icons/paw.png" />
+        <text class="splash-name">爪印</text>
+        <text class="splash-slogan">PAW-PRINT · 记录每个毛孩子</text>
+    </view>
+</view>
+
+<view class="page">
+    <view class="brand-banner">
+        <view class="brand-copy">
+            <text class="brand-eyebrow">PAW-PRINT</text>
+            <text class="brand-title">爪印</text>
+            <text class="brand-sub">记录每个毛孩子的成长</text>
+        </view>
+        <image class="brand-paw" src="/assets/icons/paw.png" />
+    </view>
+
+    <skeleton wx:if="{{viewState === 'loading'}}" count="3" />
+
+    <view class="empty-card" wx:elif="{{viewState === 'empty'}}">
+        <view class="empty-icon"><image class="empty-icon-img" src="/assets/icons/paw.png" /></view>
+        <text class="state-title">记录第一只毛孩子</text>
+        <text class="state-description">疫苗、体重、就诊一次记下，到期自动提醒你。</text>
+        <button class="primary-button" bindtap="goPets">添加第一只宠物</button>
+        <text class="empty-demo" bindtap="loadDemo">先看看示例</text>
+    </view>
+
+    <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
+        <text class="state-icon">!</text>
+        <text class="state-title">加载失败</text>
+        <text class="state-description" wx:if="{{errorMessage}}">{{errorMessage}}</text>
+        <button class="primary-button" bindtap="loadData">重试</button>
+    </view>
+
+    <block wx:else>
+        <view class="todo-card" wx:if="{{todoCount > 0}}" bindtap="goReminders">
+            <view class="todo-head">
+                <image class="todo-icon" src="/assets/icons/bell.png" />
+                <text class="todo-title">待办提醒</text>
+                <text class="todo-count">{{todoCount}}</text>
+            </view>
+            <view class="todo-item" wx:for="{{todoList}}" wx:key="id">
+                <text class="todo-type">{{item.type}}</text>
+                <text class="todo-pet">{{item.petName}}</text>
+                <text class="todo-days {{item.urgent ? 'todo-days-urgent' : ''}}">{{item.daysText}}</text>
+            </view>
+            <view class="todo-foot">
+                <text class="todo-foot-text">查看全部 {{todoCount}} 项</text>
+                <image class="todo-foot-arrow" src="/assets/icons/chevron-right.png" />
+            </view>
+        </view>
+
+        <view class="alert-card" wx:if="{{anomalyAlerts.length > 0}}">
+            <view class="alert-head">
+                <image class="alert-icon" src="/assets/icons/warning.png" />
+                <text class="alert-title">健康提醒</text>
+                <text class="alert-count">{{anomalyAlerts.length}} 条</text>
+            </view>
+
+            <view class="alert-list">
+                <view class="alert-item" wx:for="{{anomalyAlerts}}" wx:key="petId">
+                    <view class="alert-row">
+                        <text class="alert-pet">{{item.petName}}</text>
+                        <text class="alert-days">{{item.daysText}}</text>
+                    </view>
+                    <text class="alert-symptom">观察到「{{item.symptomText}}」，建议关注</text>
+                </view>
+            </view>
+
+            <view class="alert-foot" hover-class="alert-foot-hover" bindtap="goRecords">
+                <text class="alert-foot-text">查看全部记录</text>
+                <text class="alert-foot-arrow">›</text>
+            </view>
+        </view>
+
+        <view class="section">
+            <view class="section-head">
+                <text class="section-title">我家宠物</text>
+                <text class="section-more" bindtap="goPets">全部 ›</text>
+            </view>
+            <pet-card wx:for="{{pets}}" wx:key="id" pet="{{item}}" bind:tap="onPetTap" />
+        </view>
+
+        <view class="section">
+            <view class="section-head">
+                <text class="section-title">最近记录</text>
+                <text class="section-more" bindtap="goRecords">全部 ›</text>
+            </view>
+            <view class="record-item" wx:for="{{recentRecords}}" wx:key="id">
+                <view class="tag" style="background:{{typeTint[item.type]}};color:{{typeColor[item.type]}}">{{item.type}}</view>
+                <view class="record-main">
+                    <text class="record-title">{{item.petName}}<text wx:if="{{item.value}}"> · {{item.value}}</text></text>
+                    <text class="record-note" wx:if="{{item.note}}">{{item.note}}</text>
+                </view>
+                <text class="record-date">{{item.date}}</text>
+            </view>
+            <view class="record-empty" wx:if="{{recentRecords.length === 0}}">还没有记录，去添加一条吧</view>
+        </view>
+
+        <view class="nearby-entry" bindtap="goNearby">
+            <view class="nearby-icon"><image class="nearby-icon-img" src="/assets/icons/pin.png" /></view>
+            <view class="nearby-main">
+                <text class="nearby-title">周边服务</text>
+                <text class="nearby-desc">附近的宠物医院、美容院、商店与乐园</text>
+            </view>
+            <image class="nearby-arrow" src="/assets/icons/chevron-right.png" />
+        </view>
+    </block>
+</view>

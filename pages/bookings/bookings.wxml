@@ -1,0 +1,74 @@
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">BOOKINGS</text>
+        <text class="title">我的预约</text>
+        <text class="subtitle">到店完成、取消或评价，一条链路走完</text>
+    </view>
+
+    <scroll-view class="filters" scroll-x="true">
+        <view class="filter {{filterIndex === index ? 'filter-active' : ''}}"
+            wx:for="{{filters}}" wx:key="*this" data-index="{{index}}" bindtap="onFilterTap">
+            {{item}} {{counts[item] || 0}}
+        </view>
+    </scroll-view>
+
+    <skeleton wx:if="{{viewState === 'loading'}}" count="3" />
+
+    <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
+        <text class="state-icon">!</text>
+        <text class="state-title">加载失败</text>
+        <button class="primary-button" bindtap="load">重试</button>
+    </view>
+
+    <view class="empty-card" wx:elif="{{viewState === 'empty'}}">
+        <view class="empty-icon"><image class="empty-icon-img" src="/assets/icons/calendar.png" /></view>
+        <text class="state-title">还没有预约</text>
+        <text class="state-description">从「周边服务」里选一家门店，就能预约洗护、挂号或寄养。</text>
+        <button class="primary-button" bindtap="goNearby">去周边服务</button>
+    </view>
+
+    <block wx:else>
+        <view class="booking" wx:for="{{items}}" wx:key="id">
+            <view class="booking-head">
+                <text class="booking-place">{{item.placeName}}</text>
+                <text class="status status-{{item.statusClass}}">{{item.status}}</text>
+            </view>
+
+            <view class="booking-meta">
+                <text class="booking-time">{{item.date}} {{item.timeSlot}}</text>
+            </view>
+
+            <view class="booking-row">
+                <text class="booking-label">服务</text>
+                <text class="booking-value">{{item.serviceType}}</text>
+            </view>
+            <view class="booking-row">
+                <text class="booking-label">宠物</text>
+                <text class="booking-value">{{item.petName}}</text>
+            </view>
+            <view class="booking-row" wx:if="{{item.placeAddress}}">
+                <text class="booking-label">地址</text>
+                <text class="booking-value">{{item.placeAddress}}</text>
+            </view>
+            <view class="booking-row" wx:if="{{item.note}}">
+                <text class="booking-label">备注</text>
+                <text class="booking-value">{{item.note}}</text>
+            </view>
+
+            <view class="booking-score" wx:if="{{item.rating > 0}}">
+                <image class="score-star" src="/assets/icons/star.png" />
+                <text class="score-text">{{item.rating}} 星</text>
+                <text class="score-review" wx:if="{{item.review}}">{{item.review}}</text>
+            </view>
+
+            <view class="booking-actions">
+                <text class="action-link" wx:if="{{item.placeTel}}" data-tel="{{item.placeTel}}" bindtap="onCall">电话</text>
+                <text class="action-link" wx:if="{{item.status === '待服务'}}" data-id="{{item.id}}" bindtap="onCancel">取消</text>
+                <text class="action-link action-primary" wx:if="{{item.status === '待服务'}}" data-id="{{item.id}}" bindtap="onComplete">完成服务</text>
+                <text class="action-link action-primary" wx:if="{{item.canRate}}" data-id="{{item.id}}" bindtap="onRate">评价</text>
+            </view>
+        </view>
+
+        <view class="tip">门店排期、到店核销与技师选择属于商户端能力，当前版本在本地记录预约状态。</view>
+    </block>
+</view>

@@ -1,0 +1,115 @@
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">REMINDERS</text>
+        <text class="title">提醒中心</text>
+        <text class="subtitle">疫苗、驱虫、洗澡、喂食、复诊，到期一眼看到</text>
+    </view>
+
+    <skeleton wx:if="{{viewState === 'loading'}}" count="3" />
+
+    <view class="empty-card" wx:elif="{{viewState === 'empty'}}">
+        <view class="empty-icon"><image class="empty-icon-img" src="/assets/icons/paw.png" /></view>
+        <text class="state-title">还没有宠物</text>
+        <text class="state-description">先添加一只宠物，再为它设置疫苗、驱虫等提醒。</text>
+        <button class="primary-button" bindtap="goAddPet">添加宠物</button>
+    </view>
+
+    <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
+        <text class="state-icon">!</text>
+        <text class="state-title">加载失败</text>
+        <button class="primary-button" bindtap="loadData">重试</button>
+    </view>
+
+    <block wx:else>
+        <view class="notify-card">
+            <view class="notify-main">
+                <text class="notify-title">微信提醒</text>
+                <text class="notify-desc">到期时给你发一条订阅消息，不错过疫苗和驱虫</text>
+            </view>
+            <view class="notify-btn" hover-class="notify-btn-hover" bindtap="onSubscribe">开启</view>
+        </view>
+
+        <view class="summary-card {{pendingCount > 0 ? 'summary-warn' : ''}}">
+            <image class="summary-icon" src="{{summaryIcon}}" />
+            <text class="summary-text">{{summary}}</text>
+        </view>
+
+        <view class="reminder" wx:for="{{items}}" wx:key="id">
+            <view class="reminder-top">
+                <view class="reminder-head">
+                    <view class="reminder-emoji"><image class="reminder-emoji-img" src="/assets/icons/{{item.icon}}.png" /></view>
+                    <text class="reminder-title">{{item.type}} · {{item.petName}}</text>
+                </view>
+                <switch class="reminder-switch" checked="{{item.enabled}}" color="#ff8a65" data-id="{{item.id}}" bindchange="onToggle" />
+            </view>
+
+            <view class="reminder-meta">
+                <text class="reminder-cycle">每 {{item.cycleDays}} 天</text>
+                <text class="reminder-dot">·</text>
+                <text class="reminder-date">下次 {{item.nextDate}}</text>
+                <text class="reminder-status status-{{item.statusClass}}">{{item.statusText}}</text>
+            </view>
+
+            <text class="reminder-note" wx:if="{{item.note}}">{{item.note}}</text>
+
+            <view class="reminder-actions">
+                <text class="action-link" data-id="{{item.id}}" bindtap="onDone">完成一次</text>
+                <text class="action-link action-danger" data-id="{{item.id}}" bindtap="onRemove">删除</text>
+            </view>
+        </view>
+
+        <view class="tip" wx:if="{{items.length > 0}}">
+            完成后会自动按周期顺延下次日期；关闭开关的提醒不参与统计。
+        </view>
+    </block>
+
+    <view class="floating-add" hover-class="floating-add-hover" bindtap="openEditor">+</view>
+
+    <view class="editor-mask" wx:if="{{showEditor}}" bindtap="closeEditor" catchtouchmove="noop"></view>
+    <view class="editor-sheet" wx:if="{{showEditor}}" style="transform: translateY({{sheetOffset}}px);">
+        <view class="sheet-handle"
+            bindtouchstart="onSheetTouchStart"
+            bindtouchmove="onSheetTouchMove"
+            bindtouchend="onSheetTouchEnd">
+            <view class="sheet-bar"></view>
+        </view>
+        <text class="sheet-title">新增提醒</text>
+        <text class="sheet-error" wx:if="{{error !== ''}}">{{error}}</text>
+
+        <view class="field-group">
+            <text class="field-label">宠物</text>
+            <picker mode="selector" range="{{petOptions}}" value="{{editorPetIndex}}" bindchange="onEditorPet">
+                <view class="picker">{{petOptions[editorPetIndex]}}</view>
+            </picker>
+        </view>
+
+        <view class="field-group">
+            <text class="field-label">类型</text>
+            <picker mode="selector" range="{{typeOptions}}" value="{{typeIndex}}" bindchange="onEditorType">
+                <view class="picker">{{typeOptions[typeIndex]}}</view>
+            </picker>
+        </view>
+
+        <view class="field-group">
+            <text class="field-label">周期（天）</text>
+            <input class="field-input" type="number" value="{{cycleDays}}" bindinput="onCycleInput" />
+        </view>
+
+        <view class="field-group">
+            <text class="field-label">下次日期 <text class="required">*</text></text>
+            <picker mode="date" value="{{nextDate}}" bindchange="onNextDate">
+                <view class="picker">{{nextDate === '' ? '请选择日期' : nextDate}}</view>
+            </picker>
+        </view>
+
+        <view class="field-group">
+            <text class="field-label">备注</text>
+            <input class="field-input" placeholder="如：猫三联第三针（可选）" value="{{note}}" bindinput="onNote" maxlength="40" />
+        </view>
+
+        <view class="sheet-actions">
+            <button class="sheet-button" bindtap="closeEditor" disabled="{{submitting}}">取消</button>
+            <button class="sheet-button save-button" bindtap="save" loading="{{submitting}}" disabled="{{submitting}}">保存</button>
+        </view>
+    </view>
+</view>

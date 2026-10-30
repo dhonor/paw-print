@@ -1,0 +1,104 @@
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">DIGITAL ID</text>
+        <text class="title">数字身份</text>
+        <text class="subtitle">鼻纹是宠物的天然指纹，绑定它就能跨场景确认身份</text>
+    </view>
+
+    <view class="state-card" wx:if="{{viewState === 'loading'}}">
+        <view class="spinner"></view>
+        <text class="state-title">正在加载</text>
+    </view>
+
+    <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
+        <text class="state-icon">!</text>
+        <text class="state-title">加载失败</text>
+        <button class="primary-button" bindtap="goRecords">去成长记录</button>
+    </view>
+
+    <block wx:else>
+        <view class="pet-card">
+            <view class="pet-avatar"><image class="pet-avatar-img" src="{{avatarSrc}}" /></view>
+            <view class="pet-info">
+                <text class="pet-name">{{pet.name}}</text>
+                <text class="pet-meta">{{pet.breed || '品种未填写'}} · {{ageText}}</text>
+            </view>
+            <view class="pet-stat">
+                <text class="pet-stat-num">{{recordCount}}</text>
+                <text class="pet-stat-label">条记录</text>
+            </view>
+        </view>
+
+        <view class="card">
+            <view class="card-head">
+                <text class="card-title">鼻纹身份</text>
+                <text class="tag-placeholder">占位识别</text>
+            </view>
+
+            <block wx:if="{{noseprint}}">
+                <text class="code" bindtap="copyCode">{{noseprint.code}}</text>
+                <view class="meta-row">
+                    <text class="meta">建档 {{noseprint.at}}</text>
+                    <text class="meta">清晰度 {{noseprint.quality}}</text>
+                </view>
+                <text class="hint">走失寻回、寄养交接、保险核验时，用这串码就能确认是同一只宠物。</text>
+                <button class="primary-button" bindtap="buildNosePrint" loading="{{busy === 'nose'}}" disabled="{{busy !== ''}}">重新建档</button>
+            </block>
+
+            <block wx:else>
+                <text class="hint">拍摄宠物鼻部特写，生成唯一身份码，用来绑定它的全部成长记录。</text>
+                <button class="primary-button" bindtap="buildNosePrint" loading="{{busy === 'nose'}}" disabled="{{busy !== ''}}">拍摄鼻部建档</button>
+            </block>
+        </view>
+
+        <view class="card">
+            <view class="card-head">
+                <text class="card-title">拍照识品种</text>
+                <text class="tag-placeholder">占位识别</text>
+            </view>
+
+            <block wx:if="{{breedResult}}">
+                <view class="breed-main">
+                    <text class="breed-name">{{breedResult.breed}}</text>
+                    <text class="breed-conf">{{breedResult.percent}}%</text>
+                </view>
+                <view class="candidate-row">
+                    <text class="candidate" wx:for="{{breedResult.candidates}}" wx:key="breed">{{item.breed}} {{item.percent}}%</text>
+                </view>
+                <view class="btn-row">
+                    <button class="ghost-button" bindtap="recognizeBreed" disabled="{{busy !== ''}}">重新识别</button>
+                    <button class="ghost-button ghost-primary" bindtap="applyBreed">写入档案</button>
+                </view>
+            </block>
+
+            <block wx:else>
+                <text class="hint">拍一张正面照，识别品种并可直接写入档案。</text>
+                <button class="primary-button" bindtap="recognizeBreed" loading="{{busy === 'breed'}}" disabled="{{busy !== ''}}">拍照识品种</button>
+            </block>
+        </view>
+
+        <view class="card" wx:if="{{health}}">
+            <view class="card-head">
+                <text class="card-title">健康初筛</text>
+                <text class="score" style="color:{{health.color}}">{{health.score}}</text>
+            </view>
+            <view class="score-bar">
+                <view class="score-fill" style="width:{{health.score}}%;background:{{health.color}}"></view>
+            </view>
+            <text class="level" style="color:{{health.color}}">{{health.levelText}}</text>
+
+            <view class="metric {{index === 0 ? 'metric-first' : ''}}" wx:for="{{health.items}}" wx:key="label">
+                <text class="metric-label">{{item.label}}</text>
+                <text class="metric-value metric-{{item.status}}">{{item.value}}</text>
+            </view>
+
+            <view class="advice" wx:for="{{health.advice}}" wx:key="*this">· {{item}}</view>
+
+            <text class="disclaimer">基于本地记录的规则评估，不构成医疗诊断。</text>
+        </view>
+
+        <view class="footnote">
+            鼻纹与品种识别当前是占位实现（utils/ai-vision.js），接入真实识别服务后，接口结构与页面都无需改动。
+        </view>
+    </block>
+</view>

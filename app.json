@@ -1,0 +1,61 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/pet-list/pet-list",
+        "pages/pet-edit/pet-edit",
+        "pages/record/record",
+        "pages/pet-detail/pet-detail",
+        "pages/encyclopedia/encyclopedia",
+        "pages/profile/profile",
+        "pages/nearby/nearby",
+        "pages/reminders/reminders",
+        "pages/family/family",
+        "pages/pet-identity/pet-identity",
+        "pages/booking/booking",
+        "pages/bookings/bookings"
+    ],
+    "window": {
+        "navigationBarTitleText": "爪印",
+        "navigationBarBackgroundColor": "#ffffff",
+        "navigationBarTextStyle": "black",
+        "backgroundColor": "#fff7f0",
+        "backgroundTextStyle": "light"
+    },
+    "permission": {
+        "scope.userLocation": {
+            "desc": "用于查找你附近的宠物医院、美容院、商店和乐园"
+        }
+    },
+    "requiredPrivateInfos": [
+        "getLocation"
+    ],
+    "tabBar": {
+        "color": "#a1918a",
+        "selectedColor": "#b8552c",
+        "backgroundColor": "#ffffff",
+        "borderStyle": "white",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "assets/tabbar/home.png",
+                "selectedIconPath": "assets/tabbar/home-active.png"
+            },
+            {
+                "pagePath": "pages/pet-list/pet-list",
+                "text": "宠物",
+                "iconPath": "assets/tabbar/pet.png",
+                "selectedIconPath": "assets/tabbar/pet-active.png"
+            },
+            {
+                "pagePath": "pages/profile/profile",
+                "text": "我的",
+                "iconPath": "assets/tabbar/mine.png",
+                "selectedIconPath": "assets/tabbar/mine-active.png"
+            }
+        ]
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json",
+    "lazyCodeLoading": "requiredComponents"
+}

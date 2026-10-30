@@ -1,0 +1,78 @@
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">BOOKING</text>
+        <text class="title">预约服务</text>
+        <text class="subtitle">选好时间和宠物，到店直接服务</text>
+    </view>
+
+    <view class="place-card" wx:if="{{place.name}}">
+        <text class="place-name">{{place.name}}</text>
+        <text class="place-address" wx:if="{{place.address}}">{{place.address}}</text>
+        <view class="place-tel" wx:if="{{place.tel}}"><image class="icon icon-sm" src="/assets/icons/phone.png" /><text>{{place.tel}}</text></view>
+    </view>
+
+    <view class="state-card" wx:if="{{viewState === 'loading'}}">
+        <view class="spinner"></view>
+        <text class="state-title">正在加载</text>
+    </view>
+
+    <view class="state-card" wx:elif="{{viewState === 'no-pet'}}">
+        <view class="empty-icon"><image class="empty-icon-img" src="/assets/icons/paw.png" /></view>
+        <text class="state-title">还没有宠物</text>
+        <text class="state-description">预约需要绑定一只宠物，先添加档案。</text>
+        <button class="primary-button" bindtap="goAddPet">去添加宠物</button>
+    </view>
+
+    <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
+        <text class="state-icon">!</text>
+        <text class="state-title">加载失败</text>
+        <button class="primary-button" bindtap="loadPets">重试</button>
+    </view>
+
+    <block wx:else>
+        <view class="form-card">
+            <text class="form-error" wx:if="{{error !== ''}}">{{error}}</text>
+
+            <view class="field-group">
+                <text class="field-label">宠物</text>
+                <picker mode="selector" range="{{petOptions}}" value="{{petIndex}}" bindchange="onPet">
+                    <view class="picker">{{petOptions[petIndex]}}</view>
+                </picker>
+            </view>
+
+            <view class="field-group">
+                <text class="field-label">服务类型</text>
+                <picker mode="selector" range="{{serviceTypes}}" value="{{serviceIndex}}" bindchange="onService">
+                    <view class="picker">{{serviceTypes[serviceIndex]}}</view>
+                </picker>
+            </view>
+
+            <view class="field-group">
+                <text class="field-label">日期 <text class="required">*</text></text>
+                <picker mode="date" value="{{date}}" bindchange="onDate">
+                    <view class="picker">{{date === '' ? '请选择日期' : date}}</view>
+                </picker>
+            </view>
+
+            <view class="field-group">
+                <text class="field-label">时段</text>
+                <picker mode="selector" range="{{slots}}" value="{{slotIndex}}" bindchange="onSlot">
+                    <view class="picker">{{slots[slotIndex]}}</view>
+                </picker>
+            </view>
+
+            <view class="field-group">
+                <text class="field-label">备注</text>
+                <textarea class="field-textarea" placeholder="如：希望女技师 / 需要剪指甲" value="{{note}}" bindinput="onNote" maxlength="100" />
+            </view>
+
+            <view class="field-group">
+                <text class="field-label">预约人</text>
+                <view class="picker picker-static">{{operator}}</view>
+            </view>
+
+            <button class="primary-button" bindtap="submit" loading="{{submitting}}" disabled="{{submitting}}">提交预约</button>
+            <text class="form-tip">提交后可在「我的 → 我的预约」查看状态、完成与评价。</text>
+        </view>
+    </block>
+</view>

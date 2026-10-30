@@ -1,0 +1,147 @@
+.page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 48rpx 32rpx 64rpx;
+    background: #fff7f0;
+}
+
+.profile-card,
+.menu-card {
+    box-sizing: border-box;
+    padding: 32rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20rpx;
+}
+
+.avatar {
+    width: 108rpx;
+    height: 108rpx;
+    border-radius: 50%;
+    background: #fff0e9;
+    color: #ff8a65;
+    font-size: 44rpx;
+    line-height: 108rpx;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.profile-main {
+    flex: 1;
+    margin-left: 24rpx;
+}
+
+.nickname {
+    display: block;
+    color: #3a2a22;
+    font-size: 34rpx;
+    font-weight: 600;
+}
+
+.intro {
+    display: block;
+    margin-top: 10rpx;
+    color: #7a675c;
+    font-size: 26rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-card {
+    margin-top: 20rpx;
+}
+
+.menu-card:first-of-type {
+    margin-top: 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24rpx 0;
+}
+
+.menu-item:first-child {
+    border-top: 0;
+    padding-top: 8rpx;
+}
+
+.menu-item:last-child {
+    padding-bottom: 8rpx;
+}
+
+.menu-icon {
+    width: 60rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    margin-right: 20rpx;
+    border-radius: 50%;
+    background: #fff7f0;
+    font-size: 28rpx;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.menu-text {
+    flex: 1;
+    color: #3a2a22;
+    font-size: 30rpx;
+}
+
+.menu-arrow {
+    color: #806b5e;
+    font-size: 32rpx;
+}
+
+/* 个人资料：头像可点击更换 */
+.avatar {
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+}
+
+.avatar-hover {
+    opacity: 0.85;
+}
+
+.avatar-badge {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 34rpx;
+    line-height: 34rpx;
+    background: rgba(58, 42, 34, 0.45);
+    color: #ffffff;
+    font-size: 20rpx;
+    text-align: center;
+}
+
+.nickname-row {
+    display: flex;
+    align-items: center;
+}
+
+.nickname-row-hover {
+    opacity: 0.7;
+}
+
+.nickname-edit {
+    margin-left: 16rpx;
+    padding: 6rpx 14rpx;
+    border-radius: 999rpx;
+    background: #fff0e9;
+    color: #c24a2c;
+    font-size: 20rpx;
+}

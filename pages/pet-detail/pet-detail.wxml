@@ -1,0 +1,91 @@
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">PROFILE</text>
+        <text class="title">宠物详情</text>
+    </view>
+
+    <view class="state-card" wx:if="{{viewState === 'loading'}}">
+        <view class="spinner"></view>
+        <text class="state-title">正在加载</text>
+    </view>
+
+    <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
+        <text class="state-icon">!</text>
+        <text class="state-title">宠物不存在</text>
+    </view>
+
+    <block wx:else>
+        <view class="profile-head">
+            <view class="avatar"><image class="avatar-img {{avatarFill ? 'avatar-img-fill' : ''}}" src="{{avatarSrc}}" mode="aspectFill" binderror="onAvatarError" /></view>
+            <view class="head-main">
+                <text class="name">{{pet.name}}</text>
+                <text class="meta">{{pet.species}} · {{pet.breed || '未知品种'}} · {{ageText}}</text>
+            </view>
+            <text class="gender-tag">{{pet.gender}}</text>
+        </view>
+
+        <view class="id-card">
+            <view class="id-head">
+                <text class="id-title">电子身份证</text>
+                <text class="id-sub">走失时出示此卡</text>
+            </view>
+            <view class="id-row">
+                <text class="id-label">昵称</text>
+                <text class="id-value">{{pet.name}}</text>
+            </view>
+            <view class="id-row">
+                <text class="id-label">物种</text>
+                <text class="id-value">{{pet.species}}{{pet.breed ? ' · ' + pet.breed : ''}}</text>
+            </view>
+            <view class="id-row">
+                <text class="id-label">性别</text>
+                <text class="id-value">{{pet.gender}}</text>
+            </view>
+            <view class="id-row">
+                <text class="id-label">年龄</text>
+                <text class="id-value">{{ageText}}</text>
+            </view>
+            <view class="id-row">
+                <text class="id-label">绝育</text>
+                <text class="id-value">{{pet.sterilized || '未知'}}</text>
+            </view>
+            <view class="id-row">
+                <text class="id-label">芯片号</text>
+                <text class="id-value">{{pet.microchip || '未登记'}}</text>
+            </view>
+            <view class="id-row" wx:if="{{pet.noseprintCode}}">
+                <text class="id-label">鼻纹身份</text>
+                <text class="id-value">{{pet.noseprintCode}}</text>
+            </view>
+            <view class="id-row id-row-contact">
+                <text class="id-label">紧急联系</text>
+                <text class="id-value contact" bindtap="copyPhone">{{pet.emergencyContact || '未填写'}}{{pet.emergencyContact ? ' ⧉' : ''}}</text>
+            </view>
+            <view class="id-tip">若拾到请拨紧急联系，必有重谢</view>
+        </view>
+
+        <view class="section" wx:if="{{recentRecords.length > 0}}">
+            <view class="section-head">
+                <text class="section-title">最近记录</text>
+                <text class="section-more" bindtap="goRecords">全部 ›</text>
+            </view>
+            <view class="record-item" wx:for="{{recentRecords}}" wx:key="id">
+                <view class="tag">{{item.type}}</view>
+                <view class="record-main">
+                    <view class="record-title"><image wx:if="{{item.anomaly}}" class="icon icon-sm" src="/assets/icons/warning.png" /><text>{{item.anomaly ? item.anomaly : (item.value || item.type)}}</text></view>
+                    <text class="record-note" wx:if="{{item.note}}">{{item.note}}</text>
+                </view>
+                <text class="record-date">{{item.date}}</text>
+            </view>
+        </view>
+
+        <button class="ghost-btn" bindtap="goIdentity">数字身份 · 鼻纹建档</button>
+        <button class="primary-btn" bindtap="goEdit">编辑资料</button>
+        <button class="export-btn" bindtap="exportCard" loading="{{exporting}}" disabled="{{exporting}}">导出身份证图片</button>
+        <text class="export-tip">走失时可把图片发给他人</text>
+    </block>
+
+    <view class="export-canvas-wrap">
+        <canvas type="2d" id="idcardCanvas" class="export-canvas"></canvas>
+    </view>
+</view>

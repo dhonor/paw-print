@@ -1,0 +1,181 @@
+.page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 48rpx 32rpx 64rpx;
+}
+
+
+
+
+
+.location-bar {
+    display: flex;
+    align-items: center;
+    padding: 20rpx 24rpx;
+    margin-bottom: 24rpx;    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.location-icon {
+    font-size: 28rpx;
+    margin-right: 10rpx;
+}
+
+.location-text {
+    flex: 1;
+    color: #3a2a22;
+    font-size: 26rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.location-action {
+    flex-shrink: 0;
+    margin-left: 16rpx;
+    color: #ff8a65;
+    font-size: 24rpx;
+}
+
+/* 横向 scroll-view 不用 flex 布局，避免部分机型高度塌陷 */
+.chips {
+    width: 100%;
+    white-space: nowrap;
+    margin-bottom: 24rpx;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: top;
+    flex-shrink: 0;
+    padding: 14rpx 26rpx;
+    margin-right: 16rpx;    border-radius: 999rpx;
+    background: #ffffff;
+}
+
+.chip-active {
+    border-color: #ff8a65;
+    background: #fff0e9;
+}
+
+.chip-icon {
+    font-size: 26rpx;
+    margin-right: 8rpx;
+}
+
+.chip-text {
+    color: #7a675c;
+    font-size: 26rpx;
+}
+
+.chip-active .chip-text {
+    color: #ff8a65;
+    font-weight: 600;
+}
+
+
+.result-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16rpx;
+}
+
+.result-title {
+    font-size: 32rpx;
+    font-weight: 600;
+}
+
+.result-count {
+    color: #806b5e;
+    font-size: 24rpx;
+}
+
+.place {
+    padding: 24rpx 26rpx;
+    margin-bottom: 16rpx;    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.place-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.place-title {
+    flex: 1;
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #3a2a22;
+    line-height: 1.4;
+}
+
+.place-distance {
+    flex-shrink: 0;
+    margin-left: 16rpx;
+    padding: 4rpx 14rpx;
+    border-radius: 8rpx;
+    background: #fff0e9;
+    color: #ff8a65;
+    font-size: 22rpx;
+}
+
+.place-address {
+    display: block;
+    margin-top: 10rpx;
+    color: #7a675c;
+    font-size: 26rpx;
+    line-height: 1.5;
+}
+
+.place-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16rpx;
+}
+
+.place-tel {
+    flex: 1;
+    min-width: 0;
+    color: #806b5e;
+    font-size: 24rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.place-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.place-book {
+    margin-right: 24rpx;
+    padding: 8rpx 22rpx;
+    border-radius: 999rpx;
+    background: #fff0e9;
+    color: #ff8a65;
+    font-size: 24rpx;
+    font-weight: 600;
+}
+
+.place-nav {
+    color: #ff8a65;
+    font-size: 24rpx;
+}
+
+/* 定位条整条可点，右侧文字只作提示 */
+.location-action {
+    display: inline-flex;
+    align-items: center;
+    min-height: 72rpx;
+    padding-left: 16rpx;
+}
+
+.place-book {
+    padding: 18rpx 30rpx;
+}

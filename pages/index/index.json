@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "爪印",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "pet-card": "/components/pet-card/pet-card",
+    "skeleton": "/components/skeleton/skeleton"
+  }
+}

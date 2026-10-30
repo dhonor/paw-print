@@ -1,0 +1,257 @@
+.page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 48rpx 32rpx 64rpx;
+}
+
+
+
+
+
+.pet-card {
+    display: flex;
+    align-items: center;
+    padding: 26rpx 28rpx;
+    margin-bottom: 20rpx;    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.pet-avatar {
+    width: 88rpx;
+    height: 88rpx;
+    line-height: 88rpx;
+    margin-right: 20rpx;
+    border-radius: 24rpx;
+    background: #fff0e9;
+    font-size: 44rpx;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.pet-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.pet-name {
+    font-size: 34rpx;
+    font-weight: 600;
+    color: #3a2a22;
+}
+
+.pet-meta {
+    margin-top: 8rpx;
+    color: #806b5e;
+    font-size: 24rpx;
+}
+
+.pet-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    padding-left: 20rpx;
+}
+
+.pet-stat-num {
+    color: #ff8a65;
+    font-size: 36rpx;
+    font-weight: 700;
+}
+
+.pet-stat-label {
+    color: #806b5e;
+    font-size: 22rpx;
+}
+
+.card {
+    padding: 28rpx 26rpx;
+    margin-bottom: 20rpx;    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16rpx;
+}
+
+.card-title {
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #3a2a22;
+}
+
+.tag-placeholder {
+    padding: 4rpx 14rpx;
+    border-radius: 8rpx;
+    background: #fbf1e9;
+    color: #806b5e;
+    font-size: 22rpx;
+}
+
+.code {
+    display: block;
+    padding: 22rpx 24rpx;
+    border-radius: 16rpx;
+    background: #fdf2ea;
+    color: #ff8a65;
+    font-size: 32rpx;
+    font-weight: 600;
+    letter-spacing: 2rpx;
+    text-align: center;
+}
+
+.meta-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14rpx;
+}
+
+.meta {
+    color: #806b5e;
+    font-size: 24rpx;
+}
+
+.hint {
+    display: block;
+    margin-top: 14rpx;
+    color: #7a675c;
+    font-size: 26rpx;
+    line-height: 1.6;
+}
+
+.breed-main {
+    display: flex;
+    align-items: baseline;
+}
+
+.breed-name {
+    font-size: 36rpx;
+    font-weight: 700;
+    color: #3a2a22;
+}
+
+.breed-conf {
+    margin-left: 14rpx;
+    color: #ff8a65;
+    font-size: 26rpx;
+    font-weight: 600;
+}
+
+.candidate-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 14rpx;
+}
+
+.candidate {
+    padding: 8rpx 18rpx;
+    margin: 0 12rpx 12rpx 0;
+    border-radius: 999rpx;
+    background: #fff7f0;
+    color: #7a675c;
+    font-size: 24rpx;
+}
+
+.btn-row {
+    display: flex;
+    margin-top: 12rpx;
+}
+
+.ghost-button {
+    flex: 1;
+    margin: 0;
+    background: #fbf1e9;
+    color: #3a2a22;
+    font-size: 28rpx;
+}
+
+.ghost-button + .ghost-button {
+    margin-left: 16rpx;
+}
+
+.ghost-primary {
+    background: #ff8a65;
+    color: #ffffff;
+}
+
+.score {
+    font-size: 40rpx;
+    font-weight: 700;
+}
+
+.score-bar {
+    height: 14rpx;
+    border-radius: 999rpx;
+    background: #f6e9df;
+    overflow: hidden;
+}
+
+.score-fill {
+    height: 100%;
+    border-radius: 999rpx;
+}
+
+.level {
+    display: block;
+    margin-top: 12rpx;
+    font-size: 26rpx;
+    font-weight: 600;
+}
+
+.metric {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14rpx 0;}
+
+.metric-first {
+    margin-top: 12rpx;
+    border-top: 0;
+}
+
+.metric-label {
+    color: #7a675c;
+    font-size: 26rpx;
+}
+
+.metric-value {
+    font-size: 26rpx;
+}
+
+.metric-good {
+    color: #2fa97c;
+}
+
+.metric-warn {
+    color: #a66a16;
+}
+
+.metric-bad {
+    color: #e2574c;
+}
+
+.advice {
+    margin-top: 14rpx;
+    color: #3a2a22;
+    font-size: 26rpx;
+    line-height: 1.7;
+}
+
+.disclaimer {
+    display: block;
+    margin-top: 16rpx;
+    color: #806b5e;
+    font-size: 22rpx;
+}
+
+.footnote {
+    margin-top: 8rpx;
+    color: #806b5e;
+    font-size: 22rpx;
+    line-height: 1.7;
+}

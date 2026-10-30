@@ -1,0 +1,39 @@
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">PETS</text>
+        <text class="title">宠物档案</text>
+        <text class="subtitle">记录每一只毛孩子</text>
+    </view>
+
+    <skeleton wx:if="{{viewState === 'loading'}}" count="3" />
+
+    <view class="empty-card" wx:elif="{{viewState === 'empty'}}">
+        <view class="empty-icon"><image class="empty-icon-img" src="/assets/icons/paw.png" /></view>
+        <text class="state-title">还没有宠物</text>
+        <text class="state-description">添加第一只毛孩子，开始记录它的成长。</text>
+        <button class="primary-button" bindtap="openCreate">添加宠物</button>
+    </view>
+
+    <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
+        <text class="state-icon">!</text>
+        <text class="state-title">加载失败</text>
+        <button class="primary-button" bindtap="loadPets">重试</button>
+    </view>
+
+    <block wx:else>
+        <view class="list-head">
+            <text class="list-count">共 {{pets.length}} 只毛孩子</text>
+            <view class="list-add" hover-class="list-add-hover" bindtap="openCreate">+ 添加宠物</view>
+        </view>
+
+        <view class="pet-item" wx:for="{{pets}}" wx:key="id">
+            <image class="pet-item-avatar" src="{{item.avatarSrc}}" mode="aspectFill" data-index="{{index}}" data-id="{{item.id}}" bindtap="openEdit" binderror="onAvatarError" />
+            <view class="pet-main" data-id="{{item.id}}" bindtap="openEdit">
+                <text class="pet-name">{{item.name}}</text>
+                <text class="pet-meta">{{item.species}} · {{item.gender}} · {{item.ageText}}</text>
+                <text class="pet-breed" wx:if="{{item.breed}}">{{item.breed}}</text>
+            </view>
+            <text class="pet-delete" data-id="{{item.id}}" catchtap="handleDelete">删除</text>
+        </view>
+    </block>
+</view>

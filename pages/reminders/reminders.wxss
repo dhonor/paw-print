@@ -1,0 +1,322 @@
+.page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 48rpx 32rpx 180rpx;
+}
+
+
+
+
+
+
+
+.summary-card {
+    display: flex;
+    align-items: center;
+    padding: 24rpx 28rpx;
+    margin-bottom: 24rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.summary-warn {
+    border-color: #ffe2bf;
+    background: #fff9f1;
+}
+
+.summary-icon {
+    font-size: 32rpx;
+    margin-right: 14rpx;
+}
+
+.summary-text {
+    font-size: 28rpx;
+    color: #3a2a22;
+}
+
+.reminder {
+    padding: 24rpx 26rpx;
+    margin-bottom: 16rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.reminder-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.reminder-head {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    overflow: hidden;
+}
+
+.reminder-emoji {
+    width: 56rpx;
+    height: 56rpx;
+    line-height: 56rpx;
+    margin-right: 14rpx;
+    border-radius: 50%;
+    background: #fff7f0;
+    font-size: 28rpx;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.reminder-title {
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #3a2a22;
+}
+
+.reminder-switch {
+    transform: scale(0.8);
+    transform-origin: right center;
+}
+
+.reminder-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 12rpx;
+    color: #806b5e;
+    font-size: 24rpx;
+}
+
+.reminder-dot {
+    margin: 0 10rpx;
+}
+
+.reminder-status {
+    margin-left: 14rpx;
+    padding: 4rpx 14rpx;
+    border-radius: 8rpx;
+    font-size: 22rpx;
+    color: #ff8a65;
+    background: #fff0e9;
+}
+
+.status-overdue,
+.status-today {
+    color: #e2574c;
+    background: #ffeee8;
+}
+
+.status-soon {
+    color: #a66a16;
+    background: #fdf2e2;
+}
+
+.status-off {
+    color: #806b5e;
+    background: #fbf1e9;
+}
+
+.reminder-note {
+    display: block;
+    margin-top: 10rpx;
+    color: #7a675c;
+    font-size: 26rpx;
+    line-height: 1.5;
+}
+
+.reminder-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14rpx;
+}
+
+.action-link {
+    margin-left: 32rpx;
+    color: #ff8a65;
+    font-size: 26rpx;
+}
+
+.action-danger {
+    color: #e2574c;
+}
+
+.tip {
+    margin-top: 8rpx;
+    color: #806b5e;
+    font-size: 24rpx;
+    line-height: 1.6;
+}
+
+.floating-add {
+    position: fixed;
+    right: 36rpx;
+    bottom: calc(56rpx + constant(safe-area-inset-bottom));
+    bottom: calc(56rpx + env(safe-area-inset-bottom));
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 104rpx;
+    height: 104rpx;
+    border-radius: 50%;
+    background: #ff8a65;
+    color: #ffffff;
+    font-size: 52rpx;
+    line-height: 1;
+    box-shadow: 0 12rpx 28rpx rgba(255, 138, 101, 0.35);
+}
+
+.floating-add-hover {
+    background: #f4734b;
+    transform: scale(0.96);
+}
+
+.editor-mask {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 10;
+}
+
+.editor-sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 11;
+    max-height: 82vh;
+    overflow-y: auto;
+    transition: transform 220ms ease;
+    box-sizing: border-box;
+    padding: 32rpx 32rpx 48rpx;
+    border-radius: 28rpx 28rpx 0 0;
+    background: #ffffff;
+}
+
+.sheet-title {
+    display: block;
+    font-size: 34rpx;
+    font-weight: 600;
+    margin-bottom: 20rpx;
+}
+
+.sheet-error {
+    display: block;
+    margin-bottom: 16rpx;
+    color: #e2574c;
+    font-size: 26rpx;
+}
+
+.field-group {
+    margin-bottom: 20rpx;
+}
+
+.field-label {
+    display: block;
+    margin-bottom: 10rpx;
+    color: #7a675c;
+    font-size: 26rpx;
+}
+
+.required {
+    color: #e2574c;
+}
+
+.picker {
+    padding: 20rpx 24rpx;
+    border-radius: 16rpx;
+    background: #fbf1e9;
+    font-size: 28rpx;
+    color: #3a2a22;
+}
+
+.field-input {
+    padding: 20rpx 24rpx;
+    border-radius: 16rpx;
+    background: #fbf1e9;
+    font-size: 28rpx;
+}
+
+.sheet-actions {
+    display: flex;
+    margin-top: 12rpx;
+}
+
+.sheet-button {
+    flex: 1;
+    margin-right: 20rpx;
+    background: #fbf1e9;
+    color: #3a2a22;
+    font-size: 28rpx;
+}
+
+.sheet-button:last-child {
+    margin-right: 0;
+}
+
+/* 与成长记录弹窗保持一致：深暖底 + 浅色字 */
+.save-button {
+    background: #ff8a65;
+    color: #ffffff;
+}
+
+/* 触达区：完成一次 / 删除 补足高度 */
+.action-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 88rpx;
+    padding-left: 8rpx;
+}
+
+.reminder-actions {
+    margin-top: 0;
+}
+
+/* 微信提醒入口 */
+.notify-card {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 26rpx 26rpx;
+    margin-bottom: 20rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+    box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
+}
+
+.notify-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.notify-title {
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #3a2a22;
+}
+
+.notify-desc {
+    margin-top: 8rpx;
+    color: #806b5e;
+    font-size: 23rpx;
+    line-height: 1.5;
+}
+
+.notify-btn {
+    flex-shrink: 0;
+    margin-left: 20rpx;
+    padding: 14rpx 32rpx;
+    border-radius: 999rpx;
+    background: #ff8a65;
+    color: #4a2415;
+    font-size: 25rpx;
+}
+
+.notify-btn-hover {
+    background: #f4734b;
+}

@@ -1,0 +1,115 @@
+.page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 32rpx;
+}
+
+.form-card {
+    box-sizing: border-box;
+    padding: 8rpx 32rpx 24rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+}
+
+.field-group {
+    margin-top: 24rpx;
+}
+
+.field-label {
+    display: block;
+    margin-bottom: 12rpx;
+    font-size: 26rpx;
+    color: #3a2a22;
+}
+
+.required {
+    color: #c24a2c;
+}
+
+.field-input,
+.picker {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 88rpx;
+    border-radius: 16rpx;
+    padding: 18rpx 20rpx;
+    background: #fbf1e9;
+    color: #3a2a22;
+    font-size: 28rpx;
+}
+
+.picker {
+    display: flex;
+    align-items: center;
+    min-height: 88rpx;
+    color: #3a2a22;
+}
+
+.avatar-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.avatar-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80rpx;
+    height: 80rpx;
+    text-align: center;
+    font-size: 40rpx;
+    margin: 0 16rpx 16rpx 0;
+    border-radius: 16rpx;
+    background: #fff7f0;
+}
+
+.avatar-option-active {
+    border-color: #ff8a65;
+    background: #fff0e9;
+}
+
+.field-textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 160rpx;
+    border-radius: 16rpx;
+    padding: 18rpx 20rpx;
+    background: #fbf1e9;
+    color: #3a2a22;
+    font-size: 28rpx;
+}
+
+.form-error {
+    display: block;
+    margin-top: 24rpx;
+    padding: 14rpx 18rpx;
+    border-radius: 16rpx;
+    background: #ffeee8;
+    color: #c24a2c;
+    font-size: 24rpx;
+}
+
+.save-button {
+    margin-top: 32rpx;
+    background: #ff8a65;
+    color: #ffffff;
+    font-size: 30rpx;
+}
+
+/* 头像上传入口 */
+.avatar-option-upload {
+    background: #fffaf5;
+}
+
+.avatar-upload-plus {
+    color: #c24a2c;
+    font-size: 40rpx;
+    line-height: 1;
+}
+
+.field-hint {
+    display: block;
+    margin-top: 4rpx;
+    color: #806b5e;
+    font-size: 22rpx;
+}
