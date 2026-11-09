@@ -1,0 +1,81 @@
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">PRIVACY</text>
+        <text class="title">隐私政策</text>
+        <text class="subtitle">最后更新：{{updatedAt}}</text>
+    </view>
+
+    <view class="card">
+        <text class="section-title">一、我们收集哪些信息</text>
+
+        <view class="item">
+            <text class="item-name">微信登录标识（openid）</text>
+            <text class="item-desc">用于识别你的账号、关联家庭成员。不含微信昵称、手机号、身份证等实名信息。</text>
+        </view>
+
+        <view class="item">
+            <text class="item-name">你主动填写的资料</text>
+            <text class="item-desc">昵称、头像、宠物档案、成长记录、提醒、预约。这些内容只属于你的家庭。</text>
+        </view>
+
+        <view class="item">
+            <text class="item-name">照片（相册 / 相机）</text>
+            <text class="item-desc">仅在你主动点击上传时读取你选中的那一张，用于宠物头像、就诊凭证和截图反馈。不会读取相册中的其他图片。</text>
+        </view>
+
+        <view class="item">
+            <text class="item-name">位置信息</text>
+            <text class="item-desc">仅在你打开「周边服务」时获取一次，用于检索附近的宠物医院、美容店等。<text class="strong">位置不会被保存到服务器</text>，也不会用于广告。</text>
+        </view>
+    </view>
+
+    <view class="card">
+        <text class="section-title">二、信息如何使用</text>
+        <text class="para">· 提供记录、提醒、家庭共享等核心功能；</text>
+        <text class="para">· 在你授权后，通过微信订阅消息推送疫苗、驱虫等到期提醒；</text>
+        <text class="para">· 排查故障：仅在你主动提交意见反馈时，使用你填写的描述与联系方式。</text>
+        <text class="para strong">我们不会向任何第三方出售、出租你的个人信息。</text>
+    </view>
+
+    <view class="card">
+        <text class="section-title">三、存储与保护</text>
+        <text class="para">· 数据存储在中国境内的服务器，传输过程使用 HTTPS 加密；</text>
+        <text class="para">· 账号密码类凭据（如 JWT）仅保存在你的设备本地；</text>
+        <text class="para">· 不同家庭之间的数据相互隔离，服务端按家庭成员身份校验后才返回。</text>
+    </view>
+
+    <view class="card">
+        <text class="section-title">四、第三方服务</text>
+        <view class="item">
+            <text class="item-name">微信开放能力</text>
+            <text class="item-desc">用于登录、订阅消息。适用腾讯的隐私政策。</text>
+        </view>
+        <view class="item">
+            <text class="item-name">腾讯位置服务</text>
+            <text class="item-desc">用于周边门店检索。请求由我们的服务端转发，你的位置不会被直接交给第三方。</text>
+        </view>
+    </view>
+
+    <view class="card">
+        <text class="section-title">五、你的权利</text>
+        <text class="para">· <text class="strong">查看与更正</text>：在「我的」或宠物详情页随时修改资料；</text>
+        <text class="para">· <text class="strong">删除</text>：删除宠物会同时删除它的记录、提醒与预约；删除记录仅影响该条；</text>
+        <text class="para">· <text class="strong">撤回授权</text>：在微信「设置 → 隐私 → 授权管理」中关闭位置或相册权限；</text>
+        <text class="para">· <text class="strong">注销账号</text>：通过意见反馈联系我们，我们会在 15 个工作日内删除你的全部数据。</text>
+    </view>
+
+    <view class="card">
+        <text class="section-title">六、未成年人</text>
+        <text class="para">本小程序面向宠物主人，不专门面向未成年人。若你是未成年人，请在监护人指导下使用。</text>
+    </view>
+
+    <view class="card">
+        <text class="section-title">七、政策更新与联系</text>
+        <text class="para">政策发生重大变更时，我们会在小程序内显著提示。继续使用即表示你接受更新后的政策。</text>
+        <text class="para">如有疑问，可通过意见反馈联系我们。</text>
+        <view class="link" hover-class="link-hover" bindtap="goFeedback">
+            <text class="link-text">前往意见反馈</text>
+            <image class="link-arrow" src="/assets/icons/chevron-right.png" />
+        </view>
+    </view>
+</view>

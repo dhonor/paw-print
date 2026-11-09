@@ -17,7 +17,7 @@
 | 成长记录 | `pages/record` | 记录卡片、体重趋势、异常统计、记录人 |
 | 提醒中心 | `pages/reminders` | 7 类周期提醒、完成打卡顺延、微信订阅提醒 |
 | 品种百科 | `pages/encyclopedia` | 13 个品种、分类筛选、详情弹窗 |
-| 周边服务 | `pages/nearby` | 定位授权 + 腾讯 LBS 周边 POI |
+| 周边服务 | `pages/nearby` | 定位授权 + 周边 POI（腾讯 LBS，经后端代理） |
 | 预约 | `pages/booking` / `pages/bookings` | 预约表单 + 我的预约（完成/取消/评价） |
 | 数字身份 | `pages/pet-identity` | 鼻纹建档、拍照识品种、健康初筛（识别为占位实现） |
 | 家庭共享 | `pages/family` | 成员列表、邀请码加入 |
@@ -49,15 +49,16 @@ paw-print/
 │   ├── icons/                       # 功能图标与 8 个宠物头像 PNG
 │   └── tabbar/                      # 底部导航图标（普通/选中）
 └── utils/
-    ├── config.js                    # ★ 前后端开关与接口地址
+    ├── config.js                    # ★ 前后端开关与接口地址（按环境自动切换）
     ├── api.js                       # 请求层：自动登录、token、401 重试
-    ├── local-store.js               # 本地存储实现（工厂函数）
-    ├── remote-store.js              # 后端实现（与 local 同签名）
+    ├── local-store.js               # 本地存储实现（工厂函数，与 remote 同签名）
+    ├── remote-store.js              # 后端实现（同签名，query 直接下推）
     ├── pet-store.js                 # 按 config 选择实现
     ├── record-store.js
     ├── reminder-store.js
     ├── booking-store.js
     ├── family-store.js
+    ├── page.js                      # 页面级复用（下拉刷新收尾等）
     ├── upload.js                    # 选图 + 上传
     ├── notify.js                    # 订阅消息授权
     ├── badge.js                     # tabBar 提醒徽标
@@ -66,7 +67,7 @@ paw-print/
     ├── icons.js                     # 图标与头像地址解析
     ├── health-score.js              # 健康初筛规则（纯本地）
     ├── ai-vision.js                 # 品种/鼻纹识别适配层（当前为占位）
-    ├── lbs.js                       # 腾讯位置服务封装
+    ├── lbs.js                       # 定位 + 后端 LBS 代理封装（key 不在端上）
     └── seed.js                      # 示例数据（用户主动触发才写入）
 ```
 
@@ -99,28 +100,38 @@ Ctrl+B 编译。首页能刷出内容即为链路打通。
 
 ## 配置项（`utils/config.js`）
 
+接口地址按小程序自身的版本自动选择，不用每次发版前手改：
+
+| 版本（`envVersion`） | 使用地址 |
+|---|---|
+| `develop`（开发者工具/预览）、`trial`（体验版） | `DEV_API_BASE`，当前 `http://10.3.103.114:4000/api` |
+| `release`（正式版） | `RELEASE_API_BASE`，**上线前必须换成备案的 https 域名** |
+
 ```js
+const DEV_API_BASE = 'http://10.3.103.114:4000/api';       // 电脑局域网 IP，模拟器/真机都能连；换 WiFi 记得同步改（用 ipconfig 查）
+const RELEASE_API_BASE = 'https://api.example.com/api';    // TODO: 换成备案域名
+
 module.exports = {
-    useRemote: true,                        // 是否使用后端；false 则回到纯本地存储
-    apiBase: 'http://127.0.0.1:4000/api',   // 模拟器用 127.0.0.1，真机换局域网 IP
-    devLoginCode: 'dev-user',               // 本地 mock 登录；接真实登录改成 ''
-    subscribeTemplateId: '',                // 订阅消息模板 ID，留空则推送走 mock
+    useRemote: true,                   // 是否使用后端；false 则回到纯本地存储
+    devLoginCode: isRelease ? '' : 'dev-user',  // 正式版自动走真实 wx.login
+    subscribeTemplateId: '',           // 订阅消息模板 ID，留空则推送走 mock
 };
 ```
 
 | 场景 | 需要改什么 |
 |---|---|
-| 日常开发（模拟器） | 不用改 |
-| 真机预览 | `apiBase` 换成 `http://<电脑局域网IP>:4000/api` |
-| 接真实微信登录 | `devLoginCode: ''`，后端 `.env` 填 `WX_SECRET` |
+| 日常开发（模拟器 + 真机预览） | 不用改，`DEV_API_BASE` 默认是电脑局域网 IP，两边都能连 |
+| 只在本机模拟器调试 | 可换成 `http://127.0.0.1:4000/api`，但手机就连不上了 |
+| 电脑 IP 变了（换 WiFi / DHCP） | 同步改 `DEV_API_BASE` |
+| 接真实微信登录 | 后端 `.env` 填 `WX_SECRET`；正式版会自动走真实登录 |
 | 纯本地演示（无后端） | `useRemote: false`，页面零改动 |
-| 正式发布 | `apiBase` 换成备案的 https 域名，并在小程序后台配置 request 白名单 |
+| 正式发布 | 改 `RELEASE_API_BASE`，并在小程序后台「开发管理 → 服务器域名」配置 request 白名单 |
 
 ---
 
 ## 数据层设计
 
-页面只调用 `xxxStore.list() / create() / update() / remove()`，所有方法返回 `Promise<{ data, error }>`，**永不 reject**。
+页面只调用 `xxxStore.list() / get() / create() / update() / remove()`，所有方法返回 `Promise<{ data, error }>`，**永不 reject**。
 
 ```
 页面 ──> pet-store ──┬─> local-store  (wx.storage)
@@ -128,11 +139,15 @@ module.exports = {
 ```
 
 - 两种实现签名完全一致，切换只改 `config.useRemote`；
+- `list(query)` 两边都支持**等值过滤 + 截断**，查询能下推到后端就不在前端全量拉取：
+  - `recordStore.list({ petId, take: 5 })` → `GET /records?petId=..&take=5`（本地模式则在内存里过滤/截断）
+  - `petStore.get(id)` → `GET /pets/:id`（本地模式直接按 id 命中；记录/提醒/预约没有单条接口，统一用 `list` 过滤）
+- 两种实现的排序跟后端对齐：记录/预约按 `date desc`，提醒按 `nextDate asc`，本地模式不会因为「最近修改」把旧记录顶到最前；
 - 业务特殊动作通过 `actions` 扩展，例如：
   - `reminderStore.complete(id)` → `POST /reminders/:id/complete`（服务端顺延下次日期）
   - `bookingStore.rate(id, payload)` → `POST /bookings/:id/rate`（仅已完成可评）
 
-已接后端的域：宠物、记录、提醒、预约、家庭。改为 `useRemote: false` 时全部回落到本地。
+已接后端的域：宠物、记录、提醒、预约、家庭。改为 `useRemote: false` 时全部回落到本地（周边服务除外，需要后端代理）。
 
 ---
 
@@ -145,6 +160,8 @@ module.exports = {
 | GET/PATCH | `/api/family`、`/api/family/me` | 家庭信息、个人资料（昵称/头像） |
 | POST | `/api/family/join` | 邀请码加入家庭（返回新 token） |
 | POST | `/api/upload` | 图片上传，返回可访问地址 |
+| GET | `/api/lbs/search` | 周边搜索（服务端代理腾讯位置服务） |
+| GET | `/api/lbs/geocode` | 逆地址解析（坐标 → 可读地址） |
 | POST | `/api/notify/subscribe` | 上报订阅额度 |
 
 除 `/auth/login` 外都要带 `Authorization: Bearer <token>`。
@@ -173,7 +190,7 @@ module.exports = {
 | 现象 | 原因 | 处理 |
 |---|---|---|
 | 首页「加载失败」+ 域名校验报错 | `project.private.config.json` 里的 `urlCheck` 覆盖了主配置 | 两个配置文件都把 `urlCheck` 设为 `false`，或在开发者工具里手动取消勾选 |
-| 连不上后端（`[::1]` 拒绝） | Windows 上 localhost 解析到 IPv6，服务只监听 IPv4 | 已改双栈监听；接口地址用 `127.0.0.1` |
+| 连不上后端（`[::1]` 拒绝） | Windows 上 localhost 解析到 IPv6，服务只监听 IPv4 | 已改双栈监听；模拟器用 `127.0.0.1`，真机用电脑局域网 IP |
 | 字段莫名变 `undefined` | 后端改了 Prisma schema 但没重启 | `prisma generate` → `db push` → **重启后端** |
 | 真机请求超时 | 还在用 `127.0.0.1` | 换局域网 IP，手机与电脑同 WiFi，手机端打开「调试」 |
 | 小程序空白但无报错 | 未编译或缓存旧代码 | Ctrl+B，必要时「清缓存 → 全部清除」 |
@@ -186,4 +203,4 @@ module.exports = {
 2. **订阅消息需配置模板**：`subscribeTemplateId` 为空时，点「开启」只提示未配置；后端推送也只打日志。微信是一次性订阅，授权一次发一条。
 3. **图片存本地磁盘**：后端 `uploads/` 目录只适合开发，生产需换对象存储，并补 `imgSecCheck` 内容安全审核。
 4. **家庭共享依赖后端**：本地模式下成员只是手动维护的名单，不是真实账号。
-5. **周边服务**：腾讯 LBS key 的免费配额有限，超限会返回 status 121，需要自行扩容或换 key。
+5. **周边服务依赖后端代理**：腾讯 LBS 的 key 只放在后端 `.env`（`LBS_KEY`），小程序调 `/api/lbs/*` 转发，避免 key 被打包进客户端盗刷。免费配额有限，超限时后端返回 502，需要自行扩容或换 key；`useRemote: false` 时周边页会提示需要后端。

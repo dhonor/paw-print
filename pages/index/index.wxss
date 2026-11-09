@@ -8,7 +8,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fff7f0;
+    background: var(--color-bg);
     opacity: 1;
     transition: opacity 420ms ease;
 }
@@ -34,13 +34,13 @@
     font-size: 56rpx;
     font-weight: 700;
     letter-spacing: 8rpx;
-    color: #3a2a22;
+    color: var(--color-text);
     animation: fade-up 560ms 260ms both;
 }
 
 .splash-slogan {
     margin-top: 14rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 22rpx;
     letter-spacing: 4rpx;
     animation: fade-up 560ms 420ms both;
@@ -80,7 +80,7 @@
     padding: 40rpx 36rpx;
     margin-bottom: 24rpx;
     border-radius: 28rpx;
-    background: linear-gradient(135deg, #ff8a65 0%, #f4734b 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #f4734b 100%);
     box-shadow: 0 12rpx 32rpx rgba(244, 115, 75, 0.22);
 }
 
@@ -98,7 +98,7 @@
 
 .brand-title {
     margin-top: 10rpx;
-    color: #4a2415;
+    color: var(--color-on-primary);
     font-size: 56rpx;
     font-weight: 700;
     line-height: 1.15;
@@ -130,7 +130,7 @@
     padding: 26rpx 28rpx;
     margin-bottom: 32rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
 }
 
 .nearby-icon {
@@ -139,7 +139,7 @@
     line-height: 76rpx;
     margin-right: 20rpx;
     border-radius: 50%;
-    background: #fff0e9;
+    background: var(--color-primary-weak);
     font-size: 34rpx;
     text-align: center;
     flex-shrink: 0;
@@ -155,12 +155,12 @@
 .nearby-title {
     font-size: 30rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .nearby-desc {
     margin-top: 8rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 24rpx;
 }
 
@@ -185,11 +185,11 @@
 .section-title {
     font-size: 32rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .section-more {
-    color: #ff8a65;
+    color: var(--color-primary);
     font-size: 26rpx;
 }
 
@@ -198,14 +198,14 @@
     align-items: center;
     padding: 22rpx 24rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
     margin-bottom: 16rpx;
 }
 
 .tag {
     padding: 6rpx 16rpx;
     border-radius: 8rpx;
-    color: #c24a2c;
+    color: var(--color-primary-deep);
     font-size: 24rpx;
     flex-shrink: 0;
 }
@@ -219,13 +219,13 @@
 .record-title {
     display: block;
     font-size: 28rpx;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .record-note {
     display: block;
     margin-top: 6rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 24rpx;
     white-space: nowrap;
     overflow: hidden;
@@ -233,7 +233,7 @@
 }
 
 .record-date {
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 22rpx;
     flex-shrink: 0;
 }
@@ -241,10 +241,10 @@
 .record-empty {
     padding: 28rpx;
     text-align: center;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 26rpx;
     border-radius: 24rpx;
-    background: #fbf1e9;
+    background: var(--color-muted-weak);
 }
 
 .alert-card {
@@ -316,7 +316,7 @@
 
 .alert-symptom {
     display: block;
-    color: #3a2a22;
+    color: var(--color-text);
     font-size: 26rpx;
     line-height: 1.5;
 }
@@ -364,7 +364,7 @@
     box-sizing: border-box;
     margin-bottom: 24rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
     overflow: hidden;
     box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
 }
@@ -386,15 +386,15 @@
     flex: 1;
     font-size: 30rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .todo-count {
     flex-shrink: 0;
     padding: 4rpx 16rpx;
     border-radius: 999rpx;
-    background: #fff0e9;
-    color: #c24a2c;
+    background: var(--color-primary-weak);
+    color: var(--color-primary-deep);
     font-size: 22rpx;
 }
 
@@ -408,8 +408,8 @@
     flex-shrink: 0;
     padding: 4rpx 14rpx;
     border-radius: 8rpx;
-    background: #fbf1e9;
-    color: #7a675c;
+    background: var(--color-muted-weak);
+    color: var(--color-text-2);
     font-size: 22rpx;
 }
 
@@ -417,7 +417,7 @@
     flex: 1;
     min-width: 0;
     margin-left: 14rpx;
-    color: #3a2a22;
+    color: var(--color-text);
     font-size: 26rpx;
     overflow: hidden;
     white-space: nowrap;
@@ -427,12 +427,12 @@
 .todo-days {
     flex-shrink: 0;
     margin-left: 12rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 24rpx;
 }
 
 .todo-days-urgent {
-    color: #e2574c;
+    color: var(--color-danger);
     font-weight: 500;
 }
 
@@ -447,7 +447,7 @@
 }
 
 .todo-foot-text {
-    color: #c24a2c;
+    color: var(--color-primary-deep);
     font-size: 24rpx;
 }
 
@@ -459,7 +459,88 @@
 /* 空态里的示例入口 */
 .empty-demo {
     margin-top: 22rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 25rpx;
     text-decoration: underline;
+}
+
+/* 隐私授权弹窗 */
+.privacy-mask {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 56rpx;
+    background: rgba(40, 30, 24, 0.45);
+}
+
+.privacy-dialog {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 40rpx 36rpx 32rpx;
+    border-radius: 28rpx;
+    background: #ffffff;
+}
+
+.privacy-title {
+    display: block;
+    color: #3a2a22;
+    font-size: 32rpx;
+    font-weight: 600;
+    text-align: center;
+}
+
+.privacy-body {
+    display: block;
+    margin-top: 22rpx;
+    color: #7a675c;
+    font-size: 26rpx;
+    line-height: 1.75;
+}
+
+.privacy-strong {
+    color: #c24a2c;
+    font-weight: 600;
+}
+
+.privacy-link {
+    display: block;
+    margin-top: 18rpx;
+    color: #c24a2c;
+    font-size: 25rpx;
+}
+
+.privacy-actions {
+    display: flex;
+    margin-top: 34rpx;
+}
+
+.privacy-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 88rpx;
+    border-radius: 999rpx;
+    font-size: 28rpx;
+}
+
+.privacy-btn-ghost {
+    background: #fbf1e9;
+    color: #7a675c;
+}
+
+.privacy-btn-primary {
+    margin-left: 20rpx;
+    background: #ff8a65;
+    color: #ffffff;
+}
+
+.privacy-btn-hover {
+    opacity: 0.85;
 }

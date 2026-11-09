@@ -7,10 +7,12 @@ const { reminderStore, REMINDER_TYPES, TYPE_CYCLE, TYPE_META } = require('../../
 const { daysBetween, addDays, today } = require('../../utils/date');
 const feedback = require('../../utils/feedback');
 const { requestSubscribe } = require('../../utils/notify');
+const { stopRefresh } = require('../../utils/page');
 
 Page({
     data: {
         viewState: 'loading',
+        errorMessage: '',
         items: [],
         pendingCount: 0,
         summary: '',
@@ -52,22 +54,22 @@ Page({
     },
 
     onPullDownRefresh() {
-        const done = () => wx.stopPullDownRefresh();
-        const result = this.loadData();
-        if (result && typeof result.then === 'function') {
-            result.then(done, done);
-        } else {
-            setTimeout(done, 500);
-        }
+        stopRefresh(this.loadData());
     },
 
     loadData() {
-        this.setData({ viewState: 'loading' });
+        if (this.data.items.length === 0) {
+            this.setData({ viewState: 'loading' });
+        }
         return Promise.all([petStore.list(), reminderStore.list()]).then(results => {
             const petsResult = results[0];
             const reminderResult = results[1];
             if (petsResult.error || reminderResult.error) {
-                this.setData({ viewState: 'error' });
+                const fail = petsResult.error || reminderResult.error;
+                this.setData({
+                    viewState: 'error',
+                    errorMessage: (fail && fail.message) || '请求失败',
+                });
                 return;
             }
             const pets = petsResult.data || [];
@@ -134,7 +136,14 @@ Page({
                 if (!res.confirm) {
                     return;
                 }
-                reminderStore.remove(id).then(() => this.loadData());
+                reminderStore.remove(id).then(result => {
+                    if (result.error) {
+                        feedback.error(result.error.message || '删除失败');
+                        return;
+                    }
+                    feedback.success('已删除');
+                    this.loadData();
+                });
             },
         });
     },
@@ -258,6 +267,7 @@ Page({
                 return;
             }
             this.setData({ showEditor: false });
+            feedback.success('已添加提醒');
             this.loadData();
         });
     },

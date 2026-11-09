@@ -1,0 +1,96 @@
+.brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 56rpx 0 0;
+}
+
+.brand-logo {
+    width: 152rpx;
+    height: 152rpx;
+}
+
+.brand-name {
+    margin-top: 22rpx;
+    color: var(--color-text);
+    font-size: 44rpx;
+    font-weight: 700;
+    letter-spacing: 2rpx;
+}
+
+.brand-slogan {
+    margin-top: 10rpx;
+    color: var(--color-text-3);
+    font-size: 25rpx;
+}
+
+.version-text {
+    margin-top: 18rpx;
+    padding: 8rpx 24rpx;
+    border-radius: 999rpx;
+    background: #fbf1e9;
+    color: #a08c80;
+    font-size: 22rpx;
+}
+
+.intro {
+    display: block;
+    margin: 44rpx 8rpx 0;
+    color: var(--color-text-2);
+    font-size: 26rpx;
+    line-height: 1.8;
+    text-align: center;
+}
+
+/* 唯一的功能入口：意见反馈 */
+.link-card {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 108rpx;
+    margin-top: 44rpx;
+    padding: 0 26rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+    box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
+}
+
+.link-card-hover {
+    background: #fffaf5;
+}
+
+.link-icon {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 16rpx;
+}
+
+.link-text {
+    flex: 1;
+    color: var(--color-text);
+    font-size: 29rpx;
+}
+
+.link-arrow {
+    width: 24rpx;
+    height: 24rpx;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 80rpx;
+}
+
+.footer-brand {
+    color: #b3a196;
+    font-size: 22rpx;
+    letter-spacing: 2rpx;
+}
+
+.footer-sub {
+    margin-top: 10rpx;
+    color: #c0b0a5;
+    font-size: 20rpx;
+}

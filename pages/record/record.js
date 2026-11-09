@@ -8,10 +8,12 @@ const { recordStore, RECORD_TYPES, ANOMALY_PRESETS } = require('../../utils/reco
 const { getCurrentMember } = require('../../utils/family-store');
 const feedback = require('../../utils/feedback');
 const { formatDate, today, daysBetween } = require('../../utils/date');
+const { stopRefresh } = require('../../utils/page');
 
 Page({
     data: {
         viewState: 'loading',
+        errorMessage: '',
         pets: [],
         selectedPetId: '',
         selectedIndex: 0,
@@ -38,8 +40,17 @@ Page({
     },
 
     onShow() {
+        // getCurrentMember 内部有 3 秒缓存，切回页面不会重复打 /family
         this.loadOperator();
         this.loadPets();
+    },
+
+    onShareAppMessage() {
+        // 记录数据在各自的家庭里，分享只作为入口，不暴露具体内容
+        return {
+            title: '爪印 · 把毛孩子的成长都记下来',
+            path: '/pages/record/record',
+        };
     },
 
     loadOperator() {
@@ -52,20 +63,20 @@ Page({
     },
 
     onPullDownRefresh() {
-        const done = () => wx.stopPullDownRefresh();
-        const result = this.loadPets();
-        if (result && typeof result.then === 'function') {
-            result.then(done, done);
-        } else {
-            setTimeout(done, 500);
-        }
+        stopRefresh(this.loadPets());
     },
 
     loadPets() {
-        this.setData({ viewState: 'loading' });
+        // 已有宠物时静默刷新，避免每次返回都闪一下骨架屏
+        if (this.data.pets.length === 0) {
+            this.setData({ viewState: 'loading' });
+        }
         return petStore.list().then(result => {
             if (result.error) {
-                this.setData({ viewState: 'error' });
+                this.setData({
+                    viewState: 'error',
+                    errorMessage: result.error.message || '请求失败',
+                });
                 return;
             }
             const pets = result.data || [];
@@ -106,13 +117,22 @@ Page({
     },
 
     loadRecords() {
-        recordStore.list().then(result => {
+        const petId = this.data.selectedPetId;
+        // 快速切换宠物时丢弃过期响应，避免 A 的数据覆盖 B
+        const seq = (this.recordsSeq || 0) + 1;
+        this.recordsSeq = seq;
+        return recordStore.list({ petId }).then(result => {
+            if (seq !== this.recordsSeq) {
+                return;
+            }
             if (result.error) {
-                this.setData({ viewState: 'error' });
+                this.setData({
+                    viewState: 'error',
+                    errorMessage: result.error.message || '请求失败',
+                });
                 return;
             }
             const all = result.data || [];
-            const petId = this.data.selectedPetId;
             const petNameMap = {};
             this.data.pets.forEach(pet => { petNameMap[String(pet.id)] = pet.name; });
             const petRecords = all.filter(record => String(record.petId) === String(petId));

@@ -16,7 +16,7 @@
     padding: 22rpx 26rpx;
     margin-bottom: 16rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
 }
 
 .member-main {
@@ -32,8 +32,8 @@
     line-height: 72rpx;
     margin-right: 20rpx;
     border-radius: 50%;
-    background: #fff0e9;
-    color: #ff8a65;
+    background: var(--color-primary-weak);
+    color: var(--color-primary);
     font-size: 32rpx;
     text-align: center;
     flex-shrink: 0;
@@ -52,28 +52,28 @@
 .member-name {
     font-size: 30rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .member-badge {
     margin-left: 14rpx;
     padding: 4rpx 14rpx;
     border-radius: 8rpx;
-    background: #fff0e9;
-    color: #ff8a65;
+    background: var(--color-primary-weak);
+    color: var(--color-primary);
     font-size: 22rpx;
 }
 
 .member-role {
     margin-top: 6rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 24rpx;
 }
 
 .member-remove {
     flex-shrink: 0;
     margin-left: 16rpx;
-    color: #e2574c;
+    color: var(--color-danger);
     font-size: 26rpx;
 }
 
@@ -81,7 +81,7 @@
     padding: 28rpx 26rpx;
     margin-top: 8rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
 }
 
 .add-title {
@@ -94,7 +94,7 @@
 .add-error {
     display: block;
     margin-bottom: 16rpx;
-    color: #e2574c;
+    color: var(--color-danger);
     font-size: 26rpx;
 }
 
@@ -106,8 +106,8 @@
     min-height: 88rpx;
     padding: 0 24rpx;
     border-radius: 16rpx;
-    background: #fbf1e9;
-    color: #3a2a22;
+    background: var(--color-muted-weak);
+    color: var(--color-text);
     font-size: 28rpx;
     line-height: 88rpx;
 }
@@ -122,21 +122,21 @@
     padding: 12rpx 24rpx;
     margin: 0 14rpx 14rpx 0;
     border-radius: 999rpx;
-    background: #fbf1e9;
-    color: #7a675c;
+    background: var(--color-muted-weak);
+    color: var(--color-text-2);
     font-size: 24rpx;
 }
 
 .role-chip-active {
-    border-color: #ff8a65;
-    background: #fff0e9;
-    color: #ff8a65;
+    border-color: var(--color-primary);
+    background: var(--color-primary-weak);
+    color: var(--color-primary);
     font-weight: 600;
 }
 
 .tip {
     margin-top: 24rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 24rpx;
     line-height: 1.7;
 }
@@ -160,7 +160,7 @@
     padding: 28rpx 26rpx;
     margin-bottom: 20rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
     box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
 }
 
@@ -168,13 +168,13 @@
     display: block;
     font-size: 32rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .family-label {
     display: block;
     margin-top: 18rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 23rpx;
 }
 
@@ -185,14 +185,14 @@
     margin-top: 10rpx;
     padding: 16rpx 20rpx;
     border-radius: 16rpx;
-    background: #fbf1e9;
+    background: var(--color-muted-weak);
 }
 
 /* 邀请码要能完整看到，允许折行而不是省略 */
 .invite-code {
     flex: 1;
     min-width: 0;
-    color: #3a2a22;
+    color: var(--color-text);
     font-size: 24rpx;
     line-height: 1.5;
     letter-spacing: 0.5rpx;
@@ -204,8 +204,8 @@
     margin-left: 16rpx;
     padding: 10rpx 26rpx;
     border-radius: 999rpx;
-    background: #ff8a65;
-    color: #4a2415;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
     font-size: 24rpx;
 }
 
@@ -216,7 +216,7 @@
 .family-tip {
     display: block;
     margin-top: 16rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 22rpx;
     line-height: 1.6;
 }

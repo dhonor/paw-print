@@ -26,32 +26,46 @@ Page({
 
     onLoad() {
         this.coords = null;
+        this.locating = false;
+        this.searchSeq = 0;
         this.locate();
     },
 
     // 获取定位 → 逆地址解析 → 搜索当前分类
     locate() {
-        if (this.data.state === 'locating') {
+        // 用实例标记防重入。注意别用 state === 'locating' 判断：
+        // 初始 state 就是 locating，那样第一次调用会直接 return，页面永远卡在“定位中”。
+        if (this.locating) {
             return Promise.resolve();
         }
+        this.locating = true;
         this.setData({
             state: 'locating',
             errorMsg: '',
             locationText: '正在获取当前位置…',
         });
-        return getLocation().then(res => {
-            if (res.error) {
-                const denied = res.error.code === 'LOCATION_DENIED';
+        return getLocation()
+            .then(res => {
+                this.locating = false;
+                if (res.error) {
+                    const denied = res.error.code === 'LOCATION_DENIED';
+                    this.setData({
+                        state: denied ? 'denied' : 'error',
+                        errorMsg: res.error.message,
+                        locationText: denied ? '未获得位置权限' : '定位失败',
+                    });
+                    return null;
+                }
+                this.coords = res.data;
+                return this.loadAddress(res.data).then(() => this.search());
+            })
+            .catch(err => {
+                this.locating = false;
                 this.setData({
-                    state: denied ? 'denied' : 'error',
-                    errorMsg: res.error.message,
-                    locationText: denied ? '未获得位置权限' : '定位失败',
+                    state: 'error',
+                    errorMsg: (err && err.message) || '定位失败',
                 });
-                return null;
-            }
-            this.coords = res.data;
-            return this.loadAddress(res.data).then(() => this.search());
-        });
+            });
     },
 
     loadAddress(coords) {
@@ -66,6 +80,9 @@ Page({
             return Promise.resolve();
         }
         const active = findCategory(this.data.activeKey);
+        // 快速切分类时只认最后一次请求，避免先发后到的旧结果覆盖新分类
+        const seq = (this.searchSeq || 0) + 1;
+        this.searchSeq = seq;
         this.setData({
             state: 'searching',
             places: [],
@@ -77,6 +94,9 @@ Page({
             latitude: this.coords.latitude,
             longitude: this.coords.longitude,
         }).then(res => {
+            if (seq !== this.searchSeq) {
+                return;
+            }
             if (res.error) {
                 this.setData({
                     state: 'error',

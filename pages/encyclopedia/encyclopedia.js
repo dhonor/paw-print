@@ -202,8 +202,14 @@ Page({
         detail: null,
     },
 
-    onLoad() {
-        this.setData({ list: PETS });
+    // data 里已经有 list: PETS，不需要 onLoad 再 setData 一次
+
+    onShareAppMessage() {
+        const detail = this.data.detail;
+        return {
+            title: detail ? detail.name + '：' + detail.personality : '宠物品种百科 · 爪印',
+            path: '/pages/encyclopedia/encyclopedia',
+        };
     },
 
     onSearch(event) {

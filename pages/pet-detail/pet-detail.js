@@ -11,6 +11,7 @@ const { avatarSrc, FALLBACK } = require('../../utils/icons');
 Page({
     data: {
         viewState: 'loading',
+        errorMessage: '',
         petId: '',
         pet: null,
         ageText: '',
@@ -20,10 +21,13 @@ Page({
 
     onLoad(options) {
         if (options && options.id) {
+            // 只记参数，取数统一交给 onShow，避免首屏发两次请求
             this.setData({ petId: options.id });
-            this.loadPet(options.id);
         } else {
-            this.setData({ viewState: 'error' });
+            this.setData({
+                viewState: 'error',
+                errorMessage: '缺少宠物参数，请从宠物列表进入',
+            });
         }
     },
 
@@ -33,23 +37,30 @@ Page({
         }
     },
 
+    // 出错后重试（按钮事件会传 event，不能直接绑 loadPet）
+    retry() {
+        if (this.data.petId) {
+            this.loadPet(this.data.petId);
+        }
+    },
+
     loadPet(id) {
-        this.setData({ viewState: 'loading' });
-        petStore.list().then(petRes => {
-            const pets = petRes.data || [];
-            let pet = null;
-            for (let i = 0; i < pets.length; i += 1) {
-                if (String(pets[i].id) === String(id)) {
-                    pet = pets[i];
-                    break;
-                }
-            }
-            if (!pet) {
-                this.setData({ viewState: 'error' });
+        // 已有数据时静默刷新，避免从编辑页返回时整页闪一下
+        if (!this.data.pet) {
+            this.setData({ viewState: 'loading' });
+        }
+        return petStore.get(id).then(petRes => {
+            if (petRes.error || !petRes.data) {
+                this.setData({
+                    viewState: 'error',
+                    errorMessage: (petRes.error && petRes.error.message) || '宠物不存在',
+                });
                 return;
             }
+            const pet = petRes.data;
             this.setData({
                 pet,
+                errorMessage: '',
                 avatarSrc: avatarSrc(pet.avatar),
                 avatarFill: /^https?:\/\//.test(pet.avatar || ''),
                 ageText: ageText(pet.birthday),
@@ -60,9 +71,13 @@ Page({
     },
 
     loadRecords(id) {
-        recordStore.list().then(recRes => {
-            const all = recRes.data || [];
-            const list = all.filter(r => String(r.petId) === String(id))
+        // 只取这只宠物的最近 5 条，不再拉全量再前端过滤
+        return recordStore.list({ petId: id, take: 5 }).then(recRes => {
+            if (recRes.error) {
+                return;
+            }
+            const list = (recRes.data || [])
+                .filter(r => String(r.petId) === String(id))
                 .slice(0, 5)
                 .map(r => ({
                     id: r.id,
@@ -151,7 +166,8 @@ Page({
         // 顶部品牌色带
         ctx.fillStyle = '#ff8a65';
         ctx.fillRect(0, 0, W, 110);
-        ctx.fillStyle = '#ffffff';
+        // 与页面一致：亮桃底用深可可文字（白字对比度只有 2.4:1）
+        ctx.fillStyle = '#4a2415';
         ctx.font = 'bold 34px sans-serif';
         ctx.fillText('爪印 · 宠物身份证', 36, 70);
         // 头像

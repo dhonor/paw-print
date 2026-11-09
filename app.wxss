@@ -4,12 +4,16 @@
    ============================================================ */
 page {
     min-height: 100%;
-    background: #fff7f0;
-    color: #3a2a22;
+    background: var(--color-bg);
+    color: var(--color-text);
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+
+    /* 页面底色 */
+    --color-bg: #fff7f0;
 
     /* 品牌色与语义色 */
     --color-primary: #ff8a65;
+    --color-primary-deep: #c24a2c;
     --color-primary-weak: #fff0e9;
     /* 主色底的文字色：亮桃底上白字只有 2.4:1，改用深可可 5.8:1 */
     --color-on-primary: #4a2415;
@@ -19,8 +23,14 @@ page {
     --gradient-brand: linear-gradient(135deg, #ff8a65 0%, #f4734b 100%);
     --shadow-card: 0 6rpx 24rpx rgba(58, 42, 34, 0.06);
     --color-success: #2fa97c;
+    --color-success-weak: #e8f5ef;
     --color-warning: #e6a23c;
+    --color-warning-weak: #fdf2e2;
+    --color-warning-text: #a66a16;
     --color-danger: #e2574c;
+    --color-danger-weak: #ffeee8;
+    /* 中性浅底：用于「其他」类标签、关闭状态 */
+    --color-muted-weak: #fbf1e9;
 
     /* 文字三级（辅助色 #806b5e 对白底 4.8:1，满足小字可读性） */
     --color-text: #3a2a22;
@@ -84,6 +94,13 @@ button[size="mini"] {
 /* ============================================================
    页面骨架：所有页面共用一套 hero / 标题层级
    ============================================================ */
+/* 页面容器基准：新页面直接用 .page，个别页面可按需覆盖 padding */
+.page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 48rpx 32rpx 64rpx;
+}
+
 .hero {
     display: flex;
     flex-direction: column;
@@ -184,7 +201,8 @@ button[size="mini"] {
     border-radius: 50%;
 }
 
-.state-icon {
+/* 错误态图标有两种用法：<text>!</text> 和 <image>，分开写避免互相覆盖 */
+text.state-icon {
     color: var(--color-primary);
     font-size: 56rpx;
     font-weight: 700;
@@ -205,8 +223,9 @@ button[size="mini"] {
 
 .primary-button {
     margin-top: 28rpx;
-    background: #ff8a65;
-    color: #ffffff;
+    background: var(--color-primary);
+    /* 亮桃底上用白字只有 2.4:1，统一改用深可可（5.8:1） */
+    color: var(--color-on-primary);
     font-size: 28rpx;
 }
 
@@ -222,26 +241,26 @@ button[size="mini"] {
 
 .status-chip-warn,
 .status-soon {
-    background: #fdf2e2;
-    color: #a66a16;
+    background: var(--color-warning-weak);
+    color: var(--color-warning-text);
 }
 
 .status-chip-danger,
 .status-overdue,
 .status-today {
-    background: #ffeee8;
+    background: var(--color-danger-weak);
     color: var(--color-danger);
 }
 
 .status-chip-success,
 .status-done {
-    background: #e8f5ef;
+    background: var(--color-success-weak);
     color: var(--color-success);
 }
 
 .status-chip-muted,
 .status-off {
-    background: #fbf1e9;
+    background: var(--color-muted-weak);
     color: var(--color-text-3);
 }
 
@@ -379,7 +398,7 @@ button[size="mini"] {
     margin-right: 14rpx;
 }
 
-.state-icon {
+image.state-icon {
     width: 72rpx;
     height: 72rpx;
 }

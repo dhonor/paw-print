@@ -26,6 +26,7 @@
     <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
         <text class="state-icon">!</text>
         <text class="state-title">加载失败</text>
+        <text class="state-description" wx:if="{{errorMessage}}">{{errorMessage}}</text>
         <button class="primary-button" bindtap="loadPets">重试</button>
     </view>
 

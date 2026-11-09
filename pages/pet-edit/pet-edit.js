@@ -41,19 +41,13 @@ Page({
     },
 
     loadPet(id) {
-        petStore.list().then(result => {
-            const pets = result.data || [];
-            let pet = null;
-            for (let i = 0; i < pets.length; i += 1) {
-                if (String(pets[i].id) === String(id)) {
-                    pet = pets[i];
-                    break;
-                }
-            }
-            if (!pet) {
-                this.setData({ error: '宠物不存在' });
+        // 直接取单条，不再先拉全部宠物再遍历
+        petStore.get(id).then(result => {
+            if (result.error || !result.data) {
+                this.setData({ error: (result.error && result.error.message) || '宠物不存在' });
                 return;
             }
+            const pet = result.data;
             this.setData({
                 name: pet.name,
                 speciesIndex: Math.max(0, SPECIES.indexOf(pet.species)),

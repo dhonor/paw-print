@@ -5,6 +5,7 @@ const { bookingStore } = require('../../utils/booking-store');
 const { petStore } = require('../../utils/pet-store');
 const { formatDate } = require('../../utils/date');
 const feedback = require('../../utils/feedback');
+const { stopRefresh } = require('../../utils/page');
 
 const FILTERS = ['全部', '待服务', '已完成', '已取消'];
 const STATUS_CLASS = {
@@ -16,6 +17,7 @@ const STATUS_CLASS = {
 Page({
     data: {
         viewState: 'loading',
+        errorMessage: '',
         filters: FILTERS,
         filterIndex: 0,
         counts: {},
@@ -27,20 +29,20 @@ Page({
     },
 
     onPullDownRefresh() {
-        const done = () => wx.stopPullDownRefresh();
-        const result = this.load();
-        if (result && typeof result.then === 'function') {
-            result.then(done, done);
-        } else {
-            setTimeout(done, 500);
-        }
+        stopRefresh(this.load());
     },
 
     load() {
-        this.setData({ viewState: 'loading' });
+        if (this.data.items.length === 0) {
+            this.setData({ viewState: 'loading' });
+        }
         return Promise.all([bookingStore.list(), petStore.list()]).then(results => {
             if (results[0].error || results[1].error) {
-                this.setData({ viewState: 'error' });
+                const fail = results[0].error || results[1].error;
+                this.setData({
+                    viewState: 'error',
+                    errorMessage: (fail && fail.message) || '请求失败',
+                });
                 return;
             }
             const pets = results[1].data || [];
@@ -101,7 +103,11 @@ Page({
                 if (!res.confirm) {
                     return;
                 }
-                bookingStore.update(id, { status: '已完成' }).then(() => {
+                bookingStore.update(id, { status: '已完成' }).then(result => {
+                    if (result.error) {
+                        feedback.error(result.error.message || '操作失败');
+                        return;
+                    }
                     feedback.success('已完成');
                     this.load();
                 });
@@ -119,7 +125,14 @@ Page({
                 if (!res.confirm) {
                     return;
                 }
-                bookingStore.update(id, { status: '已取消' }).then(() => this.load());
+                bookingStore.update(id, { status: '已取消' }).then(result => {
+                    if (result.error) {
+                        feedback.error(result.error.message || '取消失败');
+                        return;
+                    }
+                    feedback.toast('已取消');
+                    this.load();
+                });
             },
         });
     },

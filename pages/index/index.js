@@ -5,10 +5,11 @@
 
 const { petStore } = require('../../utils/pet-store');
 const { recordStore } = require('../../utils/record-store');
-const { formatDate, relativeDays, daysBetween } = require('../../utils/date');
+const { formatDate, daysBetween } = require('../../utils/date');
 const { reminderStore } = require('../../utils/reminder-store');
-const { refreshReminderBadge, countDue } = require('../../utils/badge');
+const { setReminderBadge } = require('../../utils/badge');
 const { seedDemo } = require('../../utils/seed');
+const { stopRefresh } = require('../../utils/page');
 const feedback = require('../../utils/feedback');
 
 // 记录类型用「浅底 + 同色文字」，比实心色块更轻，信息密度也更好
@@ -44,11 +45,9 @@ Page({
     data: {
         showSplash: true,
         splashHide: false,
+        showPrivacy: false,
         viewState: 'loading',
         errorMessage: '',
-        petCount: 0,
-        recordCount: 0,
-        reminderDue: 0,
         todoList: [],
         todoCount: 0,
         pets: [],
@@ -59,6 +58,9 @@ Page({
     },
 
     onLoad() {
+        // 隐私授权检查放在最前面：下面的启动动画分支有 return，放后面会漏执行
+        this.checkPrivacy();
+
         const app = getApp();
         const globalData = app && app.globalData ? app.globalData : null;
         // 只有本次启动的第一个页面播启动动画，热重载或再次进入首页不重复播放
@@ -79,6 +81,41 @@ Page({
         }, 1600);
     },
 
+    // 官方隐私授权：需要时由用户点击确认，再交给 wx.requirePrivacyAuthorize
+    checkPrivacy() {
+        if (!wx.getPrivacySetting) {
+            return;
+        }
+        wx.getPrivacySetting({
+            success: res => {
+                if (res && res.needAuthorization) {
+                    this.setData({ showPrivacy: true });
+                }
+            },
+        });
+    },
+
+    // 遮罩上阻止滚动穿透
+    noop() {},
+
+    openPrivacy() {
+        wx.navigateTo({ url: '/pages/privacy/privacy' });
+    },
+
+    closePrivacy() {
+        this.setData({ showPrivacy: false });
+    },
+
+    agreePrivacy() {
+        const done = () => this.setData({ showPrivacy: false });
+        if (wx.requirePrivacyAuthorize) {
+            wx.requirePrivacyAuthorize({ success: done, fail: done });
+            return;
+        }
+        // 低版本基础库没有该接口，直接关闭提示
+        done();
+    },
+
     onUnload() {
         if (this.splashTimer) {
             clearTimeout(this.splashTimer);
@@ -88,24 +125,25 @@ Page({
         }
     },
 
+    // 第一次进入才显示骨架屏，返回首页时复用旧数据静默刷新，避免闪一下
     onShow() {
         this.loadData();
-        refreshReminderBadge();
     },
 
     onPullDownRefresh() {
-        const done = () => wx.stopPullDownRefresh();
-        const result = this.loadData();
-        if (result && typeof result.then === 'function') {
-            result.then(done, done);
-        } else {
-            setTimeout(done, 500);
-        }
+        stopRefresh(this.loadData());
     },
 
     loadData() {
-        this.setData({ viewState: 'loading' });
-        return Promise.all([petStore.list(), recordStore.list(), reminderStore.list()]).then(results => {
+        if (this.data.pets.length === 0) {
+            this.setData({ viewState: 'loading' });
+        }
+        return Promise.all([
+            petStore.list(),
+            // 首页只需要最近一段时间的数据：后端上限 200，这里取 100 条足够
+            recordStore.list({ take: 100 }),
+            reminderStore.list(),
+        ]).then(results => {
             const petsResult = results[0];
             const recordsResult = results[1];
             if (petsResult.error || recordsResult.error) {
@@ -127,19 +165,29 @@ Page({
                 value: record.value || '',
                 note: record.note || '',
             }));
-            const todo = buildTodoList(results[2].data || [], pets);
+            const reminders = results[2].data || [];
+            const todo = buildTodoList(reminders, pets);
+            // 用刚拿到的提醒直接更新 tabBar 徽标，省掉一次重复请求；
+            // 提醒拉取失败时不动徽标，避免误清掉已有数字
+            if (!results[2].error) {
+                setReminderBadge(reminders);
+            }
             this.setData({
                 pets,
-                petCount: pets.length,
-                recordCount: allRecords.length,
                 recentRecords: recent,
-                reminderDue: countDue(results[2].data || []),
                 todoList: todo.slice(0, 3),
                 todoCount: todo.length,
                 anomalyAlerts: buildAnomalyAlerts(pets, allRecords),
                 viewState: pets.length === 0 ? 'empty' : 'ready',
             });
         });
+    },
+
+    onShareAppMessage() {
+        return {
+            title: '爪印 · 记录每个毛孩子的成长',
+            path: '/pages/index/index',
+        };
     },
 
     onPetTap(event) {

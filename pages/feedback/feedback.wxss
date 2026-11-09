@@ -1,0 +1,154 @@
+.form-card {
+    box-sizing: border-box;
+    padding: 28rpx 26rpx 30rpx;
+    margin-bottom: 24rpx;
+    border-radius: 24rpx;
+    background: #ffffff;
+    box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
+}
+
+.field-label {
+    display: block;
+    margin-top: 24rpx;
+    margin-bottom: 14rpx;
+    color: #7a675c;
+    font-size: 25rpx;
+}
+
+/* 第一个字段不需要顶部间距（用双类提高特异性，避免被上面的规则覆盖） */
+.field-label.field-label-first {
+    margin-top: 0;
+}
+
+.label-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.field-counter {
+    color: #a08c80;
+    font-size: 22rpx;
+}
+
+/* 类型选择 */
+.type-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.type-chip {
+    padding: 14rpx 26rpx;
+    margin: 0 14rpx 14rpx 0;
+    border-radius: 999rpx;
+    background: #fbf1e9;
+    color: #7a675c;
+    font-size: 25rpx;
+}
+
+.type-chip-active {
+    background: #ff8a65;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* 描述 */
+.field-textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 220rpx;
+    padding: 22rpx 24rpx;
+    border-radius: 16rpx;
+    background: #fbf1e9;
+    color: #3a2a22;
+    font-size: 28rpx;
+    line-height: 1.6;
+}
+
+/* 截图 */
+.image-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.image-item {
+    position: relative;
+    width: 148rpx;
+    height: 148rpx;
+    margin: 0 16rpx 16rpx 0;
+}
+
+.image-thumb {
+    width: 148rpx;
+    height: 148rpx;
+    border-radius: 16rpx;
+    background: #fbf1e9;
+}
+
+.image-remove {
+    position: absolute;
+    top: -10rpx;
+    right: -10rpx;
+    width: 40rpx;
+    height: 40rpx;
+    line-height: 36rpx;
+    border-radius: 50%;
+    background: rgba(58, 42, 34, 0.72);
+    color: #ffffff;
+    font-size: 26rpx;
+    text-align: center;
+}
+
+.image-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 148rpx;
+    height: 148rpx;
+    margin-bottom: 16rpx;
+    border-radius: 16rpx;
+    background: #fbf1e9;
+    color: #b04a26;
+    font-size: 48rpx;
+    line-height: 1;
+}
+
+.image-add-hover {
+    background: #f6e7db;
+}
+
+/* 联系方式：固定高度 + 行高居中，避免原生 input 压字 */
+.field-input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 88rpx;
+    min-height: 88rpx;
+    padding: 0 24rpx;
+    border-radius: 16rpx;
+    background: #fbf1e9;
+    color: #3a2a22;
+    font-size: 28rpx;
+    line-height: 88rpx;
+}
+
+.form-error {
+    display: block;
+    margin-top: 20rpx;
+    color: #e2574c;
+    font-size: 25rpx;
+}
+
+.submit-button {
+    margin-top: 32rpx;
+    background: #ff8a65;
+    color: #ffffff;
+    font-size: 30rpx;
+}
+
+.tip {
+    margin-top: 4rpx;
+    padding: 0 8rpx;
+    color: #a08c80;
+    font-size: 22rpx;
+    line-height: 1.7;
+}

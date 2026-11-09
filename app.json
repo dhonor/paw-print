@@ -12,7 +12,10 @@
         "pages/family/family",
         "pages/pet-identity/pet-identity",
         "pages/booking/booking",
-        "pages/bookings/bookings"
+        "pages/bookings/bookings",
+        "pages/feedback/feedback",
+        "pages/about/about",
+        "pages/privacy/privacy"
     ],
     "window": {
         "navigationBarTitleText": "爪印",

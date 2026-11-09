@@ -1,49 +1,39 @@
 // utils/lbs.js
-// 腾讯位置服务（LBS）封装：定位、逆地址解析、周边 POI 搜索。
+// 腾讯位置服务（LBS）封装：定位在端上做，检索走自己的后端代理。
 //
-// 注意（上线前必做）：
-// 1. 小程序后台「开发管理 → 服务器域名」把 https://apis.map.qq.com 加入 request 合法域名；
-// 2. 腾讯位置服务控制台里把该 key 的 WebServiceAPI 打开，并绑定小程序 AppID；
-// 3. 真机上的定位需要在 app.json 声明 permission.scope.userLocation 与 requiredPrivateInfos。
+// 为什么不再直连 apis.map.qq.com：
+// WebServiceAPI 的 key 一旦打进小程序包就等于公开（包可反编译），会被盗刷配额。
+// 现在 key 只存在服务端 .env（LBS_KEY），小程序调用 /api/lbs/*，由后端转发。
+//
+// 本地模式（config.useRemote = false）没有后端，周边服务会返回 NO_BACKEND。
+// 真机定位需要在 app.json 声明 permission.scope.userLocation 与 requiredPrivateInfos。
 
-const LBS_KEY = 'QEUBZ-WVIET-IWWXJ-VZ7RJ-FEGV7-YIFZ6';
-const SEARCH_URL = 'https://apis.map.qq.com/ws/place/v1/search';
-const GEOCODER_URL = 'https://apis.map.qq.com/ws/geocoder/v1/';
-// 周边搜索半径（米）：5 公里，可自动扩大一次范围
+const { useRemote } = require('./config');
+const { request } = require('./api');
+
+// 周边搜索半径（米）：5 公里，由腾讯自动扩大一次范围
 const DEFAULT_RADIUS = 5000;
 
-function request(url, data) {
-    return new Promise(resolve => {
-        wx.request({
-            url,
-            data,
-            method: 'GET',
-            timeout: 10000,
-            success(res) {
-                const body = res.data && typeof res.data === 'object' ? res.data : {};
-                if (res.statusCode !== 200 || body.status !== 0) {
-                    resolve({
-                        data: null,
-                        error: {
-                            code: body.status || res.statusCode,
-                            message: body.message || '位置服务请求失败',
-                        },
-                    });
-                    return;
-                }
-                resolve({ data: body, error: null });
-            },
-            fail(err) {
-                resolve({
-                    data: null,
-                    error: {
-                        code: 'NETWORK_ERROR',
-                        message: (err && err.errMsg) || '网络异常，请检查网络连接',
-                    },
-                });
+function proxy(path, data) {
+    if (!useRemote) {
+        return Promise.resolve({
+            data: null,
+            error: {
+                code: 'NO_BACKEND',
+                message: '周边服务需要通过后端访问，请先启动 paw-print-server',
             },
         });
-    });
+    }
+    return request(path, { method: 'GET', data }).then(
+        body => ({ data: body, error: null }),
+        err => ({
+            data: null,
+            error: {
+                code: err.statusCode || 'LBS_ERROR',
+                message: err.message || '位置服务请求失败',
+            },
+        }),
+    );
 }
 
 // 获取用户当前位置（gcj02，与微信内置地图、腾讯地图一致）
@@ -78,11 +68,7 @@ function getLocation() {
 
 // 逆地址解析：把坐标换成「XX市XX区XX路」这样的可读位置
 function reverseGeocode(latitude, longitude) {
-    return request(GEOCODER_URL, {
-        location: latitude + ',' + longitude,
-        key: LBS_KEY,
-        get_poi: 0,
-    }).then(res => {
+    return proxy('/lbs/geocode', { latitude, longitude }).then(res => {
         if (res.error) {
             return { data: null, error: res.error };
         }
@@ -98,25 +84,18 @@ function reverseGeocode(latitude, longitude) {
 // 周边搜索：keyword 由页面的分类 tab 决定（宠物医院 / 宠物美容 / 宠物店 / 宠物乐园）
 function searchNearby(options) {
     const opts = options || {};
-    const latitude = opts.latitude;
-    const longitude = opts.longitude;
-    const radius = opts.radius || DEFAULT_RADIUS;
-    return request(SEARCH_URL, {
+    return proxy('/lbs/search', {
         keyword: opts.keyword || '',
-        // nearby(中心点纬度,经度,半径,是否自动扩大范围)
-        boundary: 'nearby(' + latitude + ',' + longitude + ',' + radius + ',1)',
-        orderby: '_distance',
-        page_size: opts.pageSize || 20,
-        page_index: 1,
-        key: LBS_KEY,
-        output: 'json',
+        latitude: opts.latitude,
+        longitude: opts.longitude,
+        radius: opts.radius || DEFAULT_RADIUS,
+        pageSize: opts.pageSize || 20,
     }).then(res => {
         if (res.error) {
             return { data: null, error: res.error };
         }
         const rows = (res.data && res.data.data) || [];
-        const places = rows.map(toPlace);
-        return { data: places, error: null };
+        return { data: rows.map(toPlace), error: null };
     });
 }
 
@@ -146,7 +125,6 @@ function formatDistance(distance) {
 }
 
 module.exports = {
-    LBS_KEY,
     getLocation,
     reverseGeocode,
     searchNearby,

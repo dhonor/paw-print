@@ -36,6 +36,9 @@ const TYPE_META = {
 
 const localReminderStore = createLocalStore({
     storageKey: 'paw-print-reminders',
+    // 与后端一致：最早到期的排在前面
+    sortBy: 'nextDate',
+    sortOrder: 'asc',
     fields: [
         { key: 'petId', type: 'string', required: true, label: '宠物' },
         { key: 'type', type: 'enum', values: REMINDER_TYPES, default: '疫苗' },

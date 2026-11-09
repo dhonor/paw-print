@@ -4,7 +4,7 @@
     box-sizing: border-box;
     padding: 24rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
     margin-bottom: 20rpx;
     box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
 }
@@ -13,8 +13,8 @@
     width: 88rpx;
     height: 88rpx;
     border-radius: 50%;
-    background: #fff0e9;
-    color: #ff8a65;
+    background: var(--color-primary-weak);
+    color: var(--color-primary);
     font-size: 44rpx;
     line-height: 88rpx;
     text-align: center;
@@ -31,25 +31,25 @@
     display: block;
     font-size: 30rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .meta {
     display: block;
     margin-top: 8rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 24rpx;
 }
 
 .breed {
     display: block;
     margin-top: 6rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 22rpx;
 }
 
 .arrow {
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 36rpx;
     margin-left: 12rpx;
 }

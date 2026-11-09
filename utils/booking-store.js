@@ -14,6 +14,9 @@ const BOOKING_STATUS = ['待服务', '已完成', '已取消'];
 
 const localBookingStore = createLocalStore({
     storageKey: 'paw-print-bookings',
+    // 与后端一致：按预约日期倒序
+    sortBy: 'date',
+    sortOrder: 'desc',
     fields: [
         { key: 'petId', type: 'string', required: true, label: '宠物' },
         { key: 'placeName', type: 'string', required: true, label: '门店' },

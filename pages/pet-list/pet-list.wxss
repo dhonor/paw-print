@@ -13,7 +13,7 @@
 }
 
 .list-count {
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 25rpx;
 }
 
@@ -22,8 +22,8 @@
     min-height: 68rpx;
     line-height: 68rpx;
     border-radius: 999rpx;
-    background: #ff8a65;
-    color: #ffffff;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
     font-size: 26rpx;
 }
 
@@ -38,7 +38,7 @@
     padding: 28rpx 26rpx;
     margin-bottom: 16rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
     box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
 }
 
@@ -51,20 +51,20 @@
     display: block;
     font-size: 30rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .pet-meta {
     display: block;
     margin-top: 10rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 26rpx;
 }
 
 .pet-breed {
     display: block;
     margin-top: 6rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 22rpx;
 }
 
@@ -75,7 +75,7 @@
     align-items: center;
     min-height: 72rpx;
     padding: 0 8rpx 0 20rpx;
-    color: #e2574c;
+    color: var(--color-danger);
     font-size: 25rpx;
 }
 
@@ -88,5 +88,5 @@
     height: 88rpx;
     margin-right: 20rpx;
     border-radius: 24rpx;
-    background: #fff0e9;
+    background: var(--color-primary-weak);
 }

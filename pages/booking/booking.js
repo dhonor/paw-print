@@ -11,6 +11,7 @@ const { today } = require('../../utils/date');
 Page({
     data: {
         viewState: 'loading',
+        errorMessage: '',
         place: {
             name: '',
             address: '',
@@ -47,12 +48,16 @@ Page({
         petStore.list().then(result => {
             const pets = result.data || [];
             if (result.error || pets.length === 0) {
-                this.setData({ viewState: pets.length === 0 ? 'no-pet' : 'error' });
+                this.setData({
+                    viewState: pets.length === 0 ? 'no-pet' : 'error',
+                    errorMessage: (result.error && result.error.message) || '',
+                });
                 return;
             }
             this.setData({
                 pets,
                 petOptions: pets.map(pet => pet.name),
+                errorMessage: '',
                 viewState: 'ready',
             });
         });

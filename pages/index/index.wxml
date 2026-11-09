@@ -107,4 +107,16 @@
             <image class="nearby-arrow" src="/assets/icons/chevron-right.png" />
         </view>
     </block>
+
+    <view class="privacy-mask" wx:if="{{showPrivacy}}" catchtouchmove="noop">
+        <view class="privacy-dialog">
+            <text class="privacy-title">隐私保护提示</text>
+            <text class="privacy-body">记录、提醒和周边服务需要在你主动使用时获取<text class="privacy-strong">位置</text>与<text class="privacy-strong">相册</text>权限。位置仅用于检索附近门店，不会被保存。</text>
+            <text class="privacy-link" bindtap="openPrivacy">查看《隐私政策》</text>
+            <view class="privacy-actions">
+                <view class="privacy-btn privacy-btn-ghost" hover-class="privacy-btn-hover" bindtap="closePrivacy">暂不使用</view>
+                <view class="privacy-btn privacy-btn-primary" hover-class="privacy-btn-hover" bindtap="agreePrivacy">同意并继续</view>
+            </view>
+        </view>
+    </view>
 </view>

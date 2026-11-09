@@ -2,7 +2,7 @@
     box-sizing: border-box;
     min-height: 100vh;
     padding: 48rpx 32rpx 64rpx;
-    background: #fff7f0;
+    background: var(--color-bg);
 }
 
 .profile-card,
@@ -10,7 +10,7 @@
     box-sizing: border-box;
     padding: 32rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
 }
 
 .profile-card {
@@ -23,8 +23,8 @@
     width: 108rpx;
     height: 108rpx;
     border-radius: 50%;
-    background: #fff0e9;
-    color: #ff8a65;
+    background: var(--color-primary-weak);
+    color: var(--color-primary);
     font-size: 44rpx;
     line-height: 108rpx;
     text-align: center;
@@ -38,7 +38,7 @@
 
 .nickname {
     display: block;
-    color: #3a2a22;
+    color: var(--color-text);
     font-size: 34rpx;
     font-weight: 600;
 }
@@ -46,7 +46,7 @@
 .intro {
     display: block;
     margin-top: 10rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 26rpx;
     white-space: nowrap;
     overflow: hidden;
@@ -83,7 +83,7 @@
     line-height: 60rpx;
     margin-right: 20rpx;
     border-radius: 50%;
-    background: #fff7f0;
+    background: var(--color-bg);
     font-size: 28rpx;
     text-align: center;
     flex-shrink: 0;
@@ -91,12 +91,12 @@
 
 .menu-text {
     flex: 1;
-    color: #3a2a22;
+    color: var(--color-text);
     font-size: 30rpx;
 }
 
 .menu-arrow {
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 32rpx;
 }
 
@@ -141,7 +141,7 @@
     margin-left: 16rpx;
     padding: 6rpx 14rpx;
     border-radius: 999rpx;
-    background: #fff0e9;
-    color: #c24a2c;
+    background: var(--color-primary-weak);
+    color: var(--color-primary-deep);
     font-size: 20rpx;
 }

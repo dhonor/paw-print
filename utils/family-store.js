@@ -101,6 +101,10 @@ const remoteFamilyStore = {
 
 const familyStore = useRemote ? remoteFamilyStore : localFamilyStore;
 
+// 记录页每次 onShow 都会取记录人，加一个很短的缓存（3 秒）避免同屏重复请求 /family
+const CURRENT_MEMBER_TTL = 3000;
+let currentMemberCache = { at: 0, value: null };
+
 function getCurrentMemberId() {
     const value = wx.getStorageSync(CURRENT_MEMBER_KEY);
     return typeof value === 'string' ? value : '';
@@ -108,29 +112,39 @@ function getCurrentMemberId() {
 
 function setCurrentMemberId(id) {
     wx.setStorageSync(CURRENT_MEMBER_KEY, id === null || typeof id === 'undefined' ? '' : String(id));
+    // 切换记录人后立即失效，避免记录页拿到 3 秒内的旧值
+    currentMemberCache = { at: 0, value: null };
 }
 
 // 取当前记录人：远端模式下就是登录用户自己；本地模式按选中的成员，没选过取第一个
 function getCurrentMember() {
+    const now = Date.now();
+    if (currentMemberCache.value && now - currentMemberCache.at < CURRENT_MEMBER_TTL) {
+        return Promise.resolve(currentMemberCache.value);
+    }
     const listMethod = useRemote ? remoteFamilyStore.list : localList;
     return listMethod().then(result => {
         const members = result.data || [];
+        let answer;
         if (useRemote) {
             const self = members.find(item => item.isSelf) || members[0] || null;
-            return { data: self, error: result.error };
-        }
-        const currentId = getCurrentMemberId();
-        let current = null;
-        for (let i = 0; i < members.length; i += 1) {
-            if (String(members[i].id) === String(currentId)) {
-                current = members[i];
-                break;
+            answer = { data: self, error: result.error };
+        } else {
+            const currentId = getCurrentMemberId();
+            let current = null;
+            for (let i = 0; i < members.length; i += 1) {
+                if (String(members[i].id) === String(currentId)) {
+                    current = members[i];
+                    break;
+                }
             }
+            if (!current && members.length > 0) {
+                current = members[0];
+            }
+            answer = { data: current, error: result.error };
         }
-        if (!current && members.length > 0) {
-            current = members[0];
-        }
-        return { data: current, error: result.error };
+        currentMemberCache = { at: Date.now(), value: answer };
+        return answer;
     });
 }
 

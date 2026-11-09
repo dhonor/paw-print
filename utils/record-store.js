@@ -35,6 +35,9 @@ const recordStore = useRemote
     ? createRemoteStore({ resource: 'records' })
     : createLocalStore({
     storageKey: 'paw-print-records',
+    // 与后端一致：按记录日期倒序，避免编辑旧记录后它跳到最前面
+    sortBy: 'date',
+    sortOrder: 'desc',
     fields: [
         { key: 'petId', type: 'string', required: true, label: '宠物' },
         { key: 'type', type: 'enum', values: RECORD_TYPES, default: '体重' },

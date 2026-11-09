@@ -16,7 +16,7 @@
     padding: 24rpx 28rpx;
     margin-bottom: 24rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
 }
 
 .summary-warn {
@@ -31,14 +31,14 @@
 
 .summary-text {
     font-size: 28rpx;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .reminder {
     padding: 24rpx 26rpx;
     margin-bottom: 16rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
 }
 
 .reminder-top {
@@ -60,7 +60,7 @@
     line-height: 56rpx;
     margin-right: 14rpx;
     border-radius: 50%;
-    background: #fff7f0;
+    background: var(--color-bg);
     font-size: 28rpx;
     text-align: center;
     flex-shrink: 0;
@@ -69,7 +69,7 @@
 .reminder-title {
     font-size: 30rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .reminder-switch {
@@ -82,7 +82,7 @@
     align-items: center;
     flex-wrap: wrap;
     margin-top: 12rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 24rpx;
 }
 
@@ -95,30 +95,30 @@
     padding: 4rpx 14rpx;
     border-radius: 8rpx;
     font-size: 22rpx;
-    color: #ff8a65;
-    background: #fff0e9;
+    color: var(--color-primary);
+    background: var(--color-primary-weak);
 }
 
 .status-overdue,
 .status-today {
-    color: #e2574c;
-    background: #ffeee8;
+    color: var(--color-danger);
+    background: var(--color-danger-weak);
 }
 
 .status-soon {
-    color: #a66a16;
-    background: #fdf2e2;
+    color: var(--color-warning-text);
+    background: var(--color-warning-weak);
 }
 
 .status-off {
-    color: #806b5e;
-    background: #fbf1e9;
+    color: var(--color-text-3);
+    background: var(--color-muted-weak);
 }
 
 .reminder-note {
     display: block;
     margin-top: 10rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 26rpx;
     line-height: 1.5;
 }
@@ -131,17 +131,17 @@
 
 .action-link {
     margin-left: 32rpx;
-    color: #ff8a65;
+    color: var(--color-primary);
     font-size: 26rpx;
 }
 
 .action-danger {
-    color: #e2574c;
+    color: var(--color-danger);
 }
 
 .tip {
     margin-top: 8rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 24rpx;
     line-height: 1.6;
 }
@@ -159,8 +159,8 @@
     width: 104rpx;
     height: 104rpx;
     border-radius: 50%;
-    background: #ff8a65;
-    color: #ffffff;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
     font-size: 52rpx;
     line-height: 1;
     box-shadow: 0 12rpx 28rpx rgba(255, 138, 101, 0.35);
@@ -193,7 +193,7 @@
     box-sizing: border-box;
     padding: 32rpx 32rpx 48rpx;
     border-radius: 28rpx 28rpx 0 0;
-    background: #ffffff;
+    background: var(--color-surface);
 }
 
 .sheet-title {
@@ -206,7 +206,7 @@
 .sheet-error {
     display: block;
     margin-bottom: 16rpx;
-    color: #e2574c;
+    color: var(--color-danger);
     font-size: 26rpx;
 }
 
@@ -217,26 +217,26 @@
 .field-label {
     display: block;
     margin-bottom: 10rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 26rpx;
 }
 
 .required {
-    color: #e2574c;
+    color: var(--color-danger);
 }
 
 .picker {
     padding: 20rpx 24rpx;
     border-radius: 16rpx;
-    background: #fbf1e9;
+    background: var(--color-muted-weak);
     font-size: 28rpx;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .field-input {
     padding: 20rpx 24rpx;
     border-radius: 16rpx;
-    background: #fbf1e9;
+    background: var(--color-muted-weak);
     font-size: 28rpx;
 }
 
@@ -248,8 +248,8 @@
 .sheet-button {
     flex: 1;
     margin-right: 20rpx;
-    background: #fbf1e9;
-    color: #3a2a22;
+    background: var(--color-muted-weak);
+    color: var(--color-text);
     font-size: 28rpx;
 }
 
@@ -259,8 +259,8 @@
 
 /* 与成长记录弹窗保持一致：深暖底 + 浅色字 */
 .save-button {
-    background: #ff8a65;
-    color: #ffffff;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
 }
 
 /* 触达区：完成一次 / 删除 补足高度 */
@@ -283,7 +283,7 @@
     padding: 26rpx 26rpx;
     margin-bottom: 20rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
     box-shadow: 0 6rpx 20rpx rgba(58, 42, 34, 0.05);
 }
 
@@ -297,12 +297,12 @@
 .notify-title {
     font-size: 30rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .notify-desc {
     margin-top: 8rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 23rpx;
     line-height: 1.5;
 }
@@ -312,8 +312,8 @@
     margin-left: 20rpx;
     padding: 14rpx 32rpx;
     border-radius: 999rpx;
-    background: #ff8a65;
-    color: #4a2415;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
     font-size: 25rpx;
 }
 

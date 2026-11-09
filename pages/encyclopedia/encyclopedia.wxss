@@ -2,7 +2,7 @@
     box-sizing: border-box;
     min-height: 100vh;
     padding: 48rpx 32rpx 64rpx;
-    background: #fff7f0;
+    background: var(--color-bg);
 }
 
 .search-bar {
@@ -11,7 +11,7 @@
     box-sizing: border-box;
     padding: 18rpx 24rpx;
     border-radius: 16rpx;
-    background: #fbf1e9;
+    background: var(--color-muted-weak);
 }
 
 .search-icon {
@@ -22,7 +22,7 @@
 .search-input {
     flex: 1;
     font-size: 28rpx;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .chips {
@@ -35,15 +35,15 @@
     padding: 12rpx 30rpx;
     margin-right: 16rpx;
     border-radius: 999rpx;
-    background: #ffffff;
-    color: #7a675c;
+    background: var(--color-surface);
+    color: var(--color-text-2);
     font-size: 26rpx;
 }
 
 .chip-active {
-    background: #ff8a65;
-    border-color: #ff8a65;
-    color: #4a2415;
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-on-primary);
 }
 
 .pet-list {
@@ -57,15 +57,15 @@
     padding: 28rpx 28rpx;
     margin-bottom: 18rpx;
     border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
 }
 
 .pet-icon {
     width: 88rpx;
     height: 88rpx;
     border-radius: 50%;
-    background: #fff0e9;
-    color: #ff8a65;
+    background: var(--color-primary-weak);
+    color: var(--color-primary);
     font-size: 44rpx;
     line-height: 88rpx;
     text-align: center;
@@ -86,22 +86,22 @@
 .pet-name {
     font-size: 32rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .pet-cat {
     margin-left: 14rpx;
     padding: 4rpx 14rpx;
     border-radius: 999rpx;
-    background: #fbf1e9;
-    color: #7a675c;
+    background: var(--color-muted-weak);
+    color: var(--color-text-2);
     font-size: 22rpx;
 }
 
 .pet-line {
     display: block;
     margin-top: 10rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 26rpx;
     white-space: nowrap;
     overflow: hidden;
@@ -109,7 +109,7 @@
 }
 
 .pet-arrow {
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 36rpx;
     margin-left: 8rpx;
 }
@@ -133,7 +133,7 @@
     overflow-y: auto;
     padding: 36rpx 32rpx 48rpx;
     border-radius: 28rpx 28rpx 0 0;
-    background: #ffffff;
+    background: var(--color-surface);
 }
 
 .detail-header {
@@ -157,18 +157,18 @@
     display: block;
     font-size: 36rpx;
     font-weight: 700;
-    color: #3a2a22;
+    color: var(--color-text);
 }
 
 .detail-cat {
     display: block;
     margin-top: 8rpx;
     font-size: 24rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
 }
 
 .detail-close {
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 36rpx;
     padding: 8rpx 12rpx;
 }
@@ -186,13 +186,13 @@
 .detail-label {
     width: 150rpx;
     flex-shrink: 0;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 26rpx;
 }
 
 .detail-value {
     flex: 1;
-    color: #3a2a22;
+    color: var(--color-text);
     font-size: 28rpx;
     line-height: 1.6;
 }
@@ -205,7 +205,7 @@
 
 .detail-intro {
     margin-top: 12rpx;
-    color: #3a2a22;
+    color: var(--color-text);
     font-size: 28rpx;
     line-height: 1.7;
 }

@@ -18,15 +18,15 @@
     display: inline-block;
     padding: 12rpx 26rpx;
     margin-right: 14rpx;    border-radius: 999rpx;
-    background: #ffffff;
-    color: #7a675c;
+    background: var(--color-surface);
+    color: var(--color-text-2);
     font-size: 26rpx;
 }
 
 .filter-active {
-    border-color: #ff8a65;
-    background: #fff0e9;
-    color: #ff8a65;
+    border-color: var(--color-primary);
+    background: var(--color-primary-weak);
+    color: var(--color-primary);
     font-weight: 600;
 }
 
@@ -35,7 +35,7 @@
 .booking {
     padding: 26rpx;
     margin-bottom: 16rpx;    border-radius: 24rpx;
-    background: #ffffff;
+    background: var(--color-surface);
 }
 
 .booking-head {
@@ -48,7 +48,7 @@
     flex: 1;
     font-size: 30rpx;
     font-weight: 600;
-    color: #3a2a22;
+    color: var(--color-text);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -63,18 +63,18 @@
 }
 
 .status-warn {
-    background: #fdf2e2;
-    color: #a66a16;
+    background: var(--color-warning-weak);
+    color: var(--color-warning-text);
 }
 
 .status-done {
-    background: #e8f5ef;
-    color: #2fa97c;
+    background: var(--color-success-weak);
+    color: var(--color-success);
 }
 
 .status-off {
-    background: #fbf1e9;
-    color: #806b5e;
+    background: var(--color-muted-weak);
+    color: var(--color-text-3);
 }
 
 .booking-meta {
@@ -82,7 +82,7 @@
 }
 
 .booking-time {
-    color: #ff8a65;
+    color: var(--color-primary);
     font-size: 26rpx;
     font-weight: 600;
 }
@@ -96,13 +96,13 @@
 .booking-label {
     width: 80rpx;
     flex-shrink: 0;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 24rpx;
 }
 
 .booking-value {
     flex: 1;
-    color: #3a2a22;
+    color: var(--color-text);
     font-size: 26rpx;
     line-height: 1.5;
 }
@@ -117,20 +117,20 @@
 }
 
 .score-star {
-    color: #e6a23c;
+    color: var(--color-warning);
     font-size: 26rpx;
     margin-right: 8rpx;
 }
 
 .score-text {
-    color: #a66a16;
+    color: var(--color-warning-text);
     font-size: 24rpx;
 }
 
 .score-review {
     flex: 1;
     margin-left: 14rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 24rpx;
     overflow: hidden;
     white-space: nowrap;
@@ -145,18 +145,18 @@
 
 .action-link {
     margin-left: 30rpx;
-    color: #7a675c;
+    color: var(--color-text-2);
     font-size: 26rpx;
 }
 
 .action-primary {
-    color: #ff8a65;
+    color: var(--color-primary);
     font-weight: 600;
 }
 
 .tip {
     margin-top: 10rpx;
-    color: #806b5e;
+    color: var(--color-text-3);
     font-size: 22rpx;
     line-height: 1.7;
 }

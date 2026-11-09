@@ -2,7 +2,7 @@
 // 通用本地存储数据访问工厂（业务模型层的核心）。
 //
 // 设计要点（请重点理解）：
-// 1. 页面与业务层只依赖返回对象的四个方法：list / create / update / remove；
+// 1. 页面与业务层只依赖返回对象的五个方法：list / get / create / update / remove；
 // 2. 每个方法都返回 Promise<{ data, error }>，不会 reject（error 为 null 表示成功）；
 // 3. 返回结构刻意与 cloud-service 的 createTableAccess 保持一致——
 //    因此“数据上云”时只需把页面的 store 换成云端实现，页面代码一行不用改。
@@ -24,6 +24,10 @@ function createLocalStore(options) {
     }
     const storageKey = options.storageKey;
     const fields = Array.isArray(options.fields) ? options.fields : [];
+    // 列表排序：与后端保持一致（记录/预约按 date desc，提醒按 nextDate asc）。
+    // 不配置时回落到 updatedAt desc，保持旧的“最近修改优先”行为。
+    const sortBy = typeof options.sortBy === 'string' ? options.sortBy : '';
+    const sortOrder = options.sortOrder === 'asc' ? 'asc' : 'desc';
 
     // 把外部传入的 payload 归一化为干净的字段对象。
     // mode = 'create' 时校验必填；mode = 'update' 时只接受显式传入的字段（其余保持原值）。
@@ -104,10 +108,58 @@ function createLocalStore(options) {
     }
 
     return {
-        list() {
+        // 与 remote-store 的 list(query) 对齐：
+        // - 任意字段等值过滤（如 { petId }），空值忽略
+        // - take / limit 截断，offset 跳过
+        // - 排序由 createLocalStore 的 sortBy / sortOrder 决定
+        list(query) {
             return safely(() => {
-                const items = readAll().slice().sort((a, b) => b.updatedAt - a.updatedAt);
+                const filter = query && typeof query === 'object' ? query : {};
+                const take = toPositiveInt(filter.take != null ? filter.take : filter.limit);
+                const offset = toPositiveInt(filter.offset);
+                let items = readAll().slice();
+
+                Object.keys(filter).forEach(key => {
+                    if (key === 'take' || key === 'limit' || key === 'offset') {
+                        return;
+                    }
+                    const value = filter[key];
+                    if (value === undefined || value === null || value === '') {
+                        return;
+                    }
+                    items = items.filter(item => String(item[key]) === String(value));
+                });
+
+                if (sortBy) {
+                    items.sort((a, b) => {
+                        const primary = compareBy(sortBy, sortOrder, a, b);
+                        return primary !== 0 ? primary : (b.updatedAt || 0) - (a.updatedAt || 0);
+                    });
+                } else {
+                    items.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+                }
+
+                if (offset) {
+                    items = items.slice(offset);
+                }
+                if (take) {
+                    items = items.slice(0, take);
+                }
                 return { data: items, error: null };
+            });
+        },
+
+        get(id) {
+            if (isInvalidId(id)) {
+                return Promise.resolve({ data: null, error: ERROR.INVALID_ID });
+            }
+            return safely(() => {
+                const items = readAll();
+                const index = findIndex(items, id);
+                if (index === -1) {
+                    return { data: null, error: ERROR.NOT_FOUND_OR_FORBIDDEN };
+                }
+                return { data: items[index], error: null };
             });
         },
 
@@ -174,6 +226,24 @@ function isInvalidId(id) {
         return !Number.isFinite(id);
     }
     return true;
+}
+
+function toPositiveInt(value) {
+    const number = Number(value);
+    return Number.isFinite(number) && number > 0 ? Math.floor(number) : 0;
+}
+
+// 日期是 'YYYY-MM-DD'，字符串比较即时间顺序；数字字段直接相减
+function compareBy(key, order, a, b) {
+    const av = a[key];
+    const bv = b[key];
+    let result;
+    if (typeof av === 'number' && typeof bv === 'number') {
+        result = av - bv;
+    } else {
+        result = String(av == null ? '' : av).localeCompare(String(bv == null ? '' : bv));
+    }
+    return order === 'asc' ? result : -result;
 }
 
 module.exports = {

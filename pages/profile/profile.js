@@ -8,6 +8,13 @@ const { familyStore, useRemoteFamily } = require('../../utils/family-store');
 const { pickAndUpload } = require('../../utils/upload');
 const { avatarSrc, FALLBACK } = require('../../utils/icons');
 
+// tabBar 页面只能用 switchTab 打开，用 navigateTo 会直接失败
+const TAB_PAGES = [
+    '/pages/index/index',
+    '/pages/pet-list/pet-list',
+    '/pages/profile/profile',
+];
+
 Page({
     data: {
         title: '我的',
@@ -34,7 +41,8 @@ Page({
             {
                 key: 'system',
                 items: [
-                    { key: 'about', text: '关于爪印', icon: 'info', path: '' },
+                    { key: 'feedback', text: '意见反馈', icon: 'feedback', path: '/pages/feedback/feedback' },
+                    { key: 'about', text: '关于爪印', icon: 'info', path: '/pages/about/about' },
                 ],
             },
         ],
@@ -56,6 +64,10 @@ Page({
         }
         familyStore.detail().then(result => {
             if (result.error) {
+                this.setData({
+                    displayNickname: '资料加载失败',
+                    displayIntro: '检查网络后再进来一次',
+                });
                 return;
             }
             const members = result.data.members || [];
@@ -153,6 +165,16 @@ Page({
 
         if (!menuItem.path) {
             feedback.toast('该功能暂未接入');
+            return;
+        }
+
+        if (TAB_PAGES.indexOf(menuItem.path) !== -1) {
+            wx.switchTab({
+                url: menuItem.path,
+                fail: () => {
+                    feedback.toast('页面暂未开放');
+                },
+            });
             return;
         }
 

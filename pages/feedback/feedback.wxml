@@ -1,0 +1,46 @@
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">FEEDBACK</text>
+        <text class="title">意见反馈</text>
+        <text class="subtitle">用着不顺手的地方，都可以告诉我们</text>
+    </view>
+
+    <view class="form-card">
+        <text class="field-label field-label-first">反馈类型</text>
+        <view class="type-row">
+            <view class="type-chip {{typeIndex === index ? 'type-chip-active' : ''}}"
+                wx:for="{{types}}" wx:key="*this" data-index="{{index}}" bindtap="onTypeTap">
+                {{item}}
+            </view>
+        </view>
+
+        <view class="label-row">
+            <text class="field-label">具体描述</text>
+            <text class="field-counter">还可以写 {{remaining}} 字</text>
+        </view>
+        <textarea class="field-textarea" placeholder="说说遇到了什么、希望怎么改，越具体越好"
+            value="{{content}}" bindinput="onContentInput" maxlength="{{maxLen}}" />
+
+        <view class="label-row">
+            <text class="field-label">截图</text>
+            <text class="field-counter">选填，最多 {{maxImages}} 张</text>
+        </view>
+        <view class="image-row">
+            <view class="image-item" wx:for="{{images}}" wx:key="*this">
+                <image class="image-thumb" src="{{item}}" mode="aspectFill" data-index="{{index}}" bindtap="previewImage" />
+                <view class="image-remove" data-index="{{index}}" catchtap="removeImage">×</view>
+            </view>
+            <view class="image-add" wx:if="{{images.length < maxImages}}" hover-class="image-add-hover" bindtap="addImage">+</view>
+        </view>
+
+        <text class="field-label">联系方式</text>
+        <input class="field-input" placeholder="微信号 / 手机号，选填，方便我们回复你"
+            value="{{contact}}" bindinput="onContactInput" maxlength="60" />
+
+        <text class="form-error" wx:if="{{error !== ''}}">{{error}}</text>
+
+        <button class="submit-button" bindtap="submit" loading="{{submitting}}" disabled="{{submitting}}">提交反馈</button>
+    </view>
+
+    <view class="tip">我们通常会在 1–2 个工作日内查看。涉及账号或数据异常，建议留个联系方式。</view>
+</view>

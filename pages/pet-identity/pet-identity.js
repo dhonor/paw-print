@@ -13,6 +13,7 @@ const { avatarSrc } = require('../../utils/icons');
 Page({
     data: {
         viewState: 'loading',
+        errorMessage: '',
         petId: '',
         pet: null,
         ageText: '',
@@ -25,11 +26,14 @@ Page({
 
     onLoad(options) {
         if (!options || !options.id) {
-            this.setData({ viewState: 'error' });
+            this.setData({
+                viewState: 'error',
+                errorMessage: '缺少宠物参数，请从宠物详情进入',
+            });
             return;
         }
+        // 只记参数，取数统一交给 onShow，避免首屏发两次请求
         this.setData({ petId: options.id });
-        this.loadAll(options.id);
     },
 
     onShow() {
@@ -38,32 +42,40 @@ Page({
         }
     },
 
+    // 出错后重试（按钮事件会传 event，不能直接绑 loadAll）
+    retry() {
+        if (this.data.petId) {
+            this.loadAll(this.data.petId);
+        }
+    },
+
     loadAll(petId) {
-        this.setData({ viewState: 'loading' });
-        Promise.all([petStore.list(), recordStore.list()]).then(results => {
-            if (results[0].error || results[1].error) {
-                this.setData({ viewState: 'error' });
+        if (!this.data.pet) {
+            this.setData({ viewState: 'loading' });
+        }
+        return Promise.all([
+            petStore.get(petId),
+            // 只取这只宠物的记录，健康初筛和条数都用它
+            recordStore.list({ petId }),
+        ]).then(results => {
+            const petRes = results[0];
+            const recordsRes = results[1];
+            if (petRes.error || !petRes.data || recordsRes.error) {
+                const fail = petRes.error || recordsRes.error;
+                this.setData({
+                    viewState: 'error',
+                    errorMessage: (fail && fail.message) || '宠物不存在',
+                });
                 return;
             }
-            const pets = results[0].data || [];
-            const allRecords = results[1].data || [];
-            let pet = null;
-            for (let i = 0; i < pets.length; i += 1) {
-                if (String(pets[i].id) === String(petId)) {
-                    pet = pets[i];
-                    break;
-                }
-            }
-            if (!pet) {
-                this.setData({ viewState: 'error' });
-                return;
-            }
-            const records = allRecords.filter(record => String(record.petId) === String(petId));
+            const pet = petRes.data;
+            const records = recordsRes.data || [];
             this.setData({
                 pet,
                 avatarSrc: avatarSrc(pet.avatar),
                 ageText: ageText(pet.birthday),
                 recordCount: records.length,
+                errorMessage: '',
                 noseprint: pet.noseprintCode
                     ? {
                         code: pet.noseprintCode,

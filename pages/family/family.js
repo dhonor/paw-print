@@ -16,6 +16,7 @@ Page({
     data: {
         isRemote: useRemoteFamily,
         viewState: 'loading',
+        errorMessage: '',
         members: [],
         currentId: '',
         family: null,
@@ -32,14 +33,19 @@ Page({
     },
 
     loadMembers() {
-        this.setData({ viewState: 'loading' });
+        if (this.data.members.length === 0) {
+            this.setData({ viewState: 'loading' });
+        }
         if (this.data.isRemote) {
             this.loadRemoteFamily();
             return;
         }
         familyStore.list().then(result => {
             if (result.error) {
-                this.setData({ viewState: 'error' });
+                this.setData({
+                    viewState: 'error',
+                    errorMessage: result.error.message || '请求失败',
+                });
                 return;
             }
             const raw = result.data || [];
@@ -66,7 +72,10 @@ Page({
     loadRemoteFamily() {
         familyStore.detail().then(result => {
             if (result.error) {
-                this.setData({ viewState: 'error' });
+                this.setData({
+                    viewState: 'error',
+                    errorMessage: result.error.message || '请求失败',
+                });
                 return;
             }
             const family = result.data;

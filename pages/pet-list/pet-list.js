@@ -6,10 +6,12 @@ const { petStore } = require('../../utils/pet-store');
 const feedback = require('../../utils/feedback');
 const { ageText } = require('../../utils/date');
 const { avatarSrc, FALLBACK } = require('../../utils/icons');
+const { stopRefresh } = require('../../utils/page');
 
 Page({
     data: {
         viewState: 'loading',
+        errorMessage: '',
         pets: [],
     },
 
@@ -18,20 +20,19 @@ Page({
     },
 
     onPullDownRefresh() {
-        const done = () => wx.stopPullDownRefresh();
-        const result = this.loadPets();
-        if (result && typeof result.then === 'function') {
-            result.then(done, done);
-        } else {
-            setTimeout(done, 500);
-        }
+        stopRefresh(this.loadPets());
     },
 
     loadPets() {
-        this.setData({ viewState: 'loading' });
+        if (this.data.pets.length === 0) {
+            this.setData({ viewState: 'loading' });
+        }
         return petStore.list().then(result => {
             if (result.error) {
-                this.setData({ viewState: 'error' });
+                this.setData({
+                    viewState: 'error',
+                    errorMessage: result.error.message || '请求失败',
+                });
                 return;
             }
             const pets = (result.data || []).map(pet => ({

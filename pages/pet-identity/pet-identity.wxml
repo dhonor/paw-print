@@ -13,7 +13,8 @@
     <view class="state-card state-card-error" wx:elif="{{viewState === 'error'}}">
         <text class="state-icon">!</text>
         <text class="state-title">加载失败</text>
-        <button class="primary-button" bindtap="goRecords">去成长记录</button>
+        <text class="state-description" wx:if="{{errorMessage}}">{{errorMessage}}</text>
+        <button class="primary-button" bindtap="retry">重试</button>
     </view>
 
     <block wx:else>
@@ -32,7 +33,7 @@
         <view class="card">
             <view class="card-head">
                 <text class="card-title">鼻纹身份</text>
-                <text class="tag-placeholder">占位识别</text>
+                <text class="tag-placeholder">即将上线</text>
             </view>
 
             <block wx:if="{{noseprint}}">
@@ -42,19 +43,19 @@
                     <text class="meta">清晰度 {{noseprint.quality}}</text>
                 </view>
                 <text class="hint">走失寻回、寄养交接、保险核验时，用这串码就能确认是同一只宠物。</text>
-                <button class="primary-button" bindtap="buildNosePrint" loading="{{busy === 'nose'}}" disabled="{{busy !== ''}}">重新建档</button>
+                <button class="primary-button" disabled="true">重建档 · 即将上线</button>
             </block>
 
             <block wx:else>
-                <text class="hint">拍摄宠物鼻部特写，生成唯一身份码，用来绑定它的全部成长记录。</text>
-                <button class="primary-button" bindtap="buildNosePrint" loading="{{busy === 'nose'}}" disabled="{{busy !== ''}}">拍摄鼻部建档</button>
+                <text class="hint">鼻纹识别服务正在接入。上线后拍一张鼻部特写，就能为它生成唯一身份码。</text>
+                <button class="primary-button" disabled="true">即将上线</button>
             </block>
         </view>
 
         <view class="card">
             <view class="card-head">
                 <text class="card-title">拍照识品种</text>
-                <text class="tag-placeholder">占位识别</text>
+                <text class="tag-placeholder">即将上线</text>
             </view>
 
             <block wx:if="{{breedResult}}">
@@ -66,14 +67,14 @@
                     <text class="candidate" wx:for="{{breedResult.candidates}}" wx:key="breed">{{item.breed}} {{item.percent}}%</text>
                 </view>
                 <view class="btn-row">
-                    <button class="ghost-button" bindtap="recognizeBreed" disabled="{{busy !== ''}}">重新识别</button>
+                    <button class="ghost-button" disabled="true">重新识别</button>
                     <button class="ghost-button ghost-primary" bindtap="applyBreed">写入档案</button>
                 </view>
             </block>
 
             <block wx:else>
-                <text class="hint">拍一张正面照，识别品种并可直接写入档案。</text>
-                <button class="primary-button" bindtap="recognizeBreed" loading="{{busy === 'breed'}}" disabled="{{busy !== ''}}">拍照识品种</button>
+                <text class="hint">品种识别正在接入。上线后拍一张正面照，识别结果可直接写入档案。</text>
+                <button class="primary-button" disabled="true">即将上线</button>
             </block>
         </view>
 
@@ -98,7 +99,7 @@
         </view>
 
         <view class="footnote">
-            鼻纹与品种识别当前是占位实现（utils/ai-vision.js），接入真实识别服务后，接口结构与页面都无需改动。
+            识别服务正在接入，上线后会在小程序内公告。已经生成的身份码会完整保留。
         </view>
     </block>
 </view>

@@ -24,30 +24,34 @@ function countDue(reminders) {
     return due;
 }
 
-function refreshReminderBadge() {
-    return reminderStore.list().then(result => {
-        const due = countDue(result.data || []);
-        try {
-            if (due > 0) {
-                wx.setTabBarBadge({
-                    index: PROFILE_TAB_INDEX,
-                    text: due > 99 ? '99+' : String(due),
-                    fail() {},
-                });
-            } else {
-                wx.removeTabBarBadge({
-                    index: PROFILE_TAB_INDEX,
-                    fail() {},
-                });
-            }
-        } catch (e) {
-            // 非 tab 页面调用时忽略
+// 用已经拿到的提醒列表更新徽标，避免页面刚请求完又请求一次
+function setReminderBadge(reminders) {
+    const due = countDue(reminders || []);
+    try {
+        if (due > 0) {
+            wx.setTabBarBadge({
+                index: PROFILE_TAB_INDEX,
+                text: due > 99 ? '99+' : String(due),
+                fail() {},
+            });
+        } else {
+            wx.removeTabBarBadge({
+                index: PROFILE_TAB_INDEX,
+                fail() {},
+            });
         }
-        return due;
-    });
+    } catch (e) {
+        // 非 tab 页面调用时忽略
+    }
+    return due;
+}
+
+function refreshReminderBadge() {
+    return reminderStore.list().then(result => setReminderBadge(result.data || []));
 }
 
 module.exports = {
     refreshReminderBadge,
+    setReminderBadge,
     countDue,
 };
