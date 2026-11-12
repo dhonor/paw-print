@@ -204,3 +204,11 @@ module.exports = {
 3. **图片存本地磁盘**：后端 `uploads/` 目录只适合开发，生产需换对象存储，并补 `imgSecCheck` 内容安全审核。
 4. **家庭共享依赖后端**：本地模式下成员只是手动维护的名单，不是真实账号。
 5. **周边服务依赖后端代理**：腾讯 LBS 的 key 只放在后端 `.env`（`LBS_KEY`），小程序调 `/api/lbs/*` 转发，避免 key 被打包进客户端盗刷。免费配额有限，超限时后端返回 502，需要自行扩容或换 key；`useRemote: false` 时周边页会提示需要后端。
+
+---
+
+## License
+
+[MIT](./LICENSE) © 2026 dhonor
+
+> 第三方素材：`assets/icons/` 与 `assets/tabbar/` 下的图标来自 [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji)，同为 MIT 协议，授权文本见 [`assets/icons/LICENSE.txt`](./assets/icons/LICENSE.txt)。
